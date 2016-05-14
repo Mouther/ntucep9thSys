@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html ng-app="app">
+  <head>
+    <title>創八報名 批改系統</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+    <link rel='stylesheet' href='/css/style.css' />
+    <script src='/js/angular.min.js'></script>
+    <script src='/js/angular-sanitize.min.js'></script>
+    <script src="/bower_components/Chart.js/Chart.js"></script>
+    <script src="/bower_components/angular-chart.js/dist/angular-chart.js"></script>
+    <script src='/js/app.js'></script>
+  </head>
+  <body ng-controller="ScoreCtrl">
+
+    <% include ../views/nav %>
+
+    <div class="container">
+      <h1>創八報名 批改系統</h1>
+      <div class="student-info">
+        <h3>報名者基本資料</h2>
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>name</th>
+              <th>student id</th>
+              <th>college</th>
+              <th>department</th>
+              <th>grade</th>
+              <th>email</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">{{user.id}}</th>
+              <td>{{user.name}}</td>
+              <td>{{user.student_id}}</td>
+              <td>{{user.college}}</td>
+              <td>{{user.department}}</td>
+              <td>{{user.grade}}</td>
+              <td>{{user.email}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="qa-frame">
+        <div class="panel panel-info">
+          <div class="panel-heading">
+            假設30歲時的你將成為某知名雜誌的封面人物，請以一頁A4大小為限，為自己設計出這個封面的主題與故事內容（需包括哪一本雜誌、封面主題、以及成為封面人物的故事）。
+          </div>
+          <div class="panel-body">
+            <p>連結：<a href="{{user.cover_link}}" target="_blank">{{user.cover_link}}</a></p>
+            <div class="form-inline">
+              請給分：<input type="number" ng-model="user.score.cover_link_score" class="form-control" placeholder="請輸入數字"> 
+            </div>
+          </div>
+        </div>
+
+        <div class="panel panel-info">
+          <div class="panel-heading">
+            請說明你目前擁有的創業相關技能有哪些？最想要在創創學程中得到的是什麼？
+          </div>
+          <div class="panel-body">
+            <p class="answer font16 lh15em " ng-bind-html="user.skill"></p>
+            <div class="form-inline">
+              請給分：<input type="number" class="form-control" ng-model="user.score.skill_score" placeholder="請輸入數字">
+            </div>
+          </div>
+        </div>
+
+        <div class="panel panel-success">
+          <div class="panel-heading">
+            請以1分鐘的短片，描述你的個人特質/能力專長，以及創創學程必須錄取你的理由。
+          </div>
+          <div class="panel-body">
+            
+            <p>連結：<a href="{{user.youtube_link}}" target="_blank">{{user.youtube_link}}</a></p>
+            <!-- <div class="form-inline">
+              請給分：<input type="number" class="form-control" ng-model="user.score.youtube_link_score" placeholder="請輸入數字">
+            </div> -->
+          </div>
+        </div>
+
+        <div class="panel panel-warning">
+          <div class="panel-heading">
+            請描述一件你覺得最有成就感的專案經驗，內容請含括你在這項專案活動中所扮演的角色，以及你的成就感內涵。
+          </div>
+          <div class="panel-body">
+            <p class="answer font16 lh15em " ng-bind-html="user.success_item"></p>
+            <!-- <div class="form-inline">
+              請給分：<input type="number" class="form-control" ng-model="user.score.success_item_score" placeholder="請輸入數字">
+            </div> -->
+          </div>
+        </div>
+
+        <div class="panel panel-warning">
+          <div class="panel-heading">
+            請描述一件你覺得最嚴重的失敗經驗，內容請含括導致失敗的原因，以及你如何面對這項失敗。
+          </div>
+          <div class="panel-body">
+            <p class="answer font16 lh15em " ng-bind-html="user.fail_item"></p>
+            <!-- <div class="form-inline">
+              請給分：<input type="number" class="form-control" ng-model="user.score.fail_item_score" placeholder="請輸入數字">
+            </div> -->
+          </div>
+        </div>
+
+        <button class="btn btn-primary" ng-click="JRsubmitScore()">送出 #{{user.id}} {{user.name}} 的成績</button>
+      </div>
+    </div>
+  </body>
+</html>

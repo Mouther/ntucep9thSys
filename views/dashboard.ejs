@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html ng-app="app">
+  <head>
+    <title><%= title %></title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/bower_components/angular-chart.js/dist/angular-chart.css">
+    <link rel='stylesheet' href='/css/style.css' />
+    <script src='/js/jquery-2.0.3.js'></script>
+    <script src='/js/bootstrap.js'></script>
+    <script src='/js/angular.min.js'></script>
+    <script src='/js/angular-sanitize.min.js'></script>
+    <script src="/bower_components/Chart.js/Chart.js"></script>
+    <script src="/bower_components/angular-chart.js/dist/angular-chart.js"></script>
+    <script src='/js/app.js'></script>
+  </head>
+  <body ng-controller="DashBoardCtrl">
+
+    <% include ../views/nav %>
+
+    <div class="container">
+      <h2><%= title %></h2>
+      
+      <p><span class="label label-info">Info</span> 圖表標題的數字可以更改即時互動</p>
+
+      <div class="piechart">
+        <h2>總成績前 <span class="form-inline"><input type="text" class="form-control" ng-change="updateChart()" ng-model="chart_member" style="width:50px;"></span> 名科系分布圖</h2>
+        <div class="left">
+          <canvas id="pie" class="chart chart-pie" data="data"
+            labels="labels"></canvas>
+        </div>
+        <ul class="list-group right">
+          <li class="list-group-item" ng-repeat="college in final_data | orderBy: '-data'">
+            {{college.label}}
+            <span class="badge">{{college.data}}</span>
+          </li>
+        </ul>
+      </div>
+      <div class="clearfix"></div>
+      <div class="piechart">
+        <h2>男女分布圖</h2>
+        <div class="left">
+          <canvas id="pie_gender" class="chart chart-pie" data="data_gender"
+            labels="labels_gender"></canvas>
+        </div>
+        <ul class="list-group right">
+          <li class="list-group-item" ng-repeat="gender in final_data_gender | orderBy: '-data'">
+            {{gender.label}}
+            <span class="badge">{{gender.data}}</span>
+          </li>
+        </ul>
+      </div>
+      <div class="clearfix"></div>
+      <p><span class="label label-info">Info</span> 點擊 #, total 可以排序，再次點擊反向排序</p>
+      <p><span class="label label-info">Info</span> 成績依序為封面(jrlee)、創業技能(jrlee)、影片(shihchung)、成功經驗(tmliu)、失敗經驗(tmliu)</p>
+      <table class="table table-hover header-fixed2 header-fixed">
+        <thead>
+          <tr>
+            <th style="width:7%">流水號</th>
+            <th style="width:3%" ng-click="predicate = 'id'; reverse = !reverse">#</th>
+            <th>name</th>
+            <th>student id</th>
+            <th>college</th>
+            <th>department</th>
+            <th>grade</th>
+            <th style="width: 15%">score</th>
+            <th ng-click="predicate = 'score.total'; reverse = !reverse">total</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="user in users | orderBy:predicate:reverse" ng-init="total = user.score.cover_link_score + user.score.skill_score + user.score.youtube_link_score + user.score.success_item_score + user.score.fail_item_score">
+            <td style="width: 7%">{{$index+1}}</td>
+            <td style="width: 3%">{{user.id}}</th>
+            <td>{{user.name}} | {{user.gender}}</td>
+            <td>{{user.student_id}}</td>
+            <td>{{user.college}}</td>
+            <td>{{user.department}}</td>
+            <td>{{user.grade}}</td>
+            <td style="width: 15%">{{user.score.cover_link_score || 'x'}} | {{user.score.skill_score || 'x'}} | {{user.score.youtube_link_score || 'x'}} | {{user.score.success_item_score || 'x'}} | {{user.score.fail_item_score || 'x'}}</td>
+            <td>{{user.score.total}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div> <!-- end of container -->
+  </body>
+</html>

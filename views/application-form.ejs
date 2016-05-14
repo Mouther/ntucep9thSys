@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html ng-app="app">
+  <head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/css/style.css' />
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+    <script src="/js/jquery-2.0.3.js"></script>
+    <script src='//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js'></script>
+    <script src='/js/angular.min.js'></script>
+    <script src='/js/app.js'></script>
+
+  </head>
+  <body ng-controller="MainCtrl">
+    <div class="container">
+      <div class="response" ng-repeat="response in responses">
+        <h1 class="main-title text-center">【臺大創意創業學程】 第八屆招生申請表</h1>
+        <h2>一、個人履歷</h2>
+        <table class="table table-bordered">
+          <tbody>
+            <tr>
+              <td>姓名：{{response.answers.textfield_6472977}}</td>
+              <td>學號：{{response.answers.textfield_6472978}}</td>
+            </tr>
+            <tr>
+              <td>所屬院：{{response.answers.dropdown_6473193}}</td>
+              <td>所屬系：{{response.answers.dropdown_6473316}}</td>
+            </tr>
+            <tr>
+              <td>所屬級：{{response.answers.dropdown_6474697}}</td>
+              <!-- <td>聯絡手機：</td> -->
+            </tr>
+            <tr>
+              <td>e-mail（NTU）：{{response.answers.email_6476221}}</td>
+              <td>e-mail（常用）：{{response.answers.email_6472979}}</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h3>請敘述一件讓你覺得最有成就感的專案經驗。參與這個專案讓你學到了什麼？</h3>
+        <p>ANS:</p>
+        <p>{{response.answers.textarea_6473948}}</p>
+
+        <h3>請敘述一件你過去最慘痛的失敗經驗。這份經驗帶給你的啟示是什麼？</h3>
+        <p>ANS:</p>
+        <p>{{response.answers.textarea_6473950}}</p>
+
+        <h3>除了上述兩項經驗，你擁有哪些與創業有關的技能？</h3>
+        <p>ANS:</p>
+        <p>{{response.answers.textarea_6473959}}</p>
+
+        <h2>二、30歲的你將成為某雜誌的封面人物。請設想會是哪個雜誌？什麼事由？讓你成為該雜誌的封面人物。請用一頁A4表現出你設想的封面。</h2>
+        <a href="{{response.answers.fileupload_6474650}}" ng-hide="response.answers.fileupload_6474650 == ''">pdf link</a>
+        <a href="{{response.answers.website_6524878}}" ng-hide="response.answers.website_6524878 == ''">file link</a>
+      
+        <h2>三、請用1分鐘短片描述您的個人特質，以及有利於申請創創學程的資料，並說明創創學程必須錄取您的理由。</h2>
+        <iframe width="640" height="480" ng-src="{{response.answers.embedYoutube}}" frameborder="0" allowfullscreen></iframe>
+      </div> <!-- end .response -->
+    </div>
+    
+  </body>
+</html>

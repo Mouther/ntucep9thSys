@@ -1,0 +1,86 @@
+body {
+  /*padding: 50px;*/
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+a {
+  color: #00B7FF;
+}
+
+.intro {
+  padding: 20px 20px 10px;
+}
+
+.pad20 {
+  padding: 20px;
+}
+
+.font16 {
+  font-size: 16px;
+}
+
+.lh15em {
+  line-height: 1.5em;
+}
+
+.header-fixed {
+    width: 100% 
+}
+
+.header-fixed > thead,
+.header-fixed > tbody,
+.header-fixed > thead > tr,
+.header-fixed > tbody > tr,
+.header-fixed > thead > tr > th,
+.header-fixed > tbody > tr > td {
+    display: block;
+}
+
+.header-fixed > tbody > tr:after,
+.header-fixed > thead > tr:after {
+    content: ' ';
+    display: block;
+    visibility: hidden;
+    clear: both;
+}
+
+.header-fixed > tbody {
+    overflow-y: auto;
+    height: 650px;
+}
+
+.header-fixed > tbody > tr > td,
+.header-fixed > thead > tr > th {
+    width: 14%;
+    float: left;
+}
+
+.header-fixed2 > tbody > tr > td,
+.header-fixed2 > thead > tr > th {
+    width: 12.5%;
+    float: left;
+}
+
+.qa-frame {
+  padding-bottom: 20px;
+}
+
+.piechart {
+  position: relative;
+  margin: 20px auto;
+  max-width: 840px;
+}
+.piechart h2 {
+  text-align: center;
+}
+.piechart .left {
+  width: 75%;
+  float: left;
+}
+.piechart .right {
+  width: 25%;
+  float: right;
+}
+.piechart .list-group {
+  /*width: 200px;*/
+}

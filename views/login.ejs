@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>登入</title>
+    <link rel='stylesheet' href='/css/style.css' />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+    <link rel='stylesheet' href='/css/login.css' />
+    <script src='/js/app.js'></script>
+  </head>
+  <body>
+    <div class="container">
+      <form class="form-signin" action="/login" method="POST">
+        <h2 class="form-signin-heading">創創批改系統</h2>
+        <label for="username" class="sr-only">Username</label>
+        <input type="text" id="username" name="username" class="form-control" placeholder="Username" required="" autofocus="">
+        <label for="password" class="sr-only">Password</label>
+        <input type="password" id="password" name="password" class="form-control" placeholder="Password" required="">
+        <button class="btn btn-lg btn-primary btn-block" type="submit">登入</button>
+      </form>
+    </div>
+  </body>
+</html>
