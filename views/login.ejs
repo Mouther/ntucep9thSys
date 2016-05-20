@@ -2,13 +2,66 @@
 <html>
   <head>
     <title>登入</title>
-    <link rel='stylesheet' href='/css/style.css' />
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
-    <link rel='stylesheet' href='/css/login.css' />
+    <!-- <link rel='stylesheet' href='/css/style.css' /> -->
+    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css"> -->
+    <script src="/js/jquery-2.2.3.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="semantic/dist/semantic.min.css">
+    <script src="semantic/dist/semantic.min.js"></script>
+    <!-- <link rel='stylesheet' href='/css/login.css' /> -->
     <script src='/js/app.js'></script>
+    
+
+    <style type="text/css">
+      body {
+        background-color: #DADADA;
+      }
+      body > .grid {
+        height: 100%;
+      }
+      .image {
+        margin-top: -100px;
+      }
+      .column {
+        max-width: 450px;
+      }
+    </style>
   </head>
   <body>
-    <div class="container">
+    <div class="ui middle aligned center aligned grid">
+      <div class="column">
+        <h2 class="ui teal image header">
+          <img src="/image/cep_only_logo-01.png" class="image">
+          <div class="content" style="text-align: left;">
+            台大創創學程<br>第九屆新生 批改系統
+          </div>
+        </h2>
+        <form class="ui large form" action="/login" method="POST">
+          <div class="ui stacked segment">
+            <div class="field">
+              <div class="ui left icon input">
+                <i class="user icon"></i>
+                <input type="text" name="username" placeholder="Username">
+              </div>
+            </div>
+            <div class="field">
+              <div class="ui left icon input">
+                <i class="lock icon"></i>
+                <input type="password" name="password" placeholder="Password">
+              </div>
+            </div>
+            <button class="ui fluid large teal submit button" type="submit">Login</button>
+          </div>
+
+          <div class="ui error message"></div>
+
+        </form>
+
+        <!-- <div class="ui message">
+          New to us? <a href="#">Sign Up</a>
+        </div> -->
+      </div>
+    </div>
+    <!-- <div class="container">
       <form class="form-signin" action="/login" method="POST">
         <h2 class="form-signin-heading">創創批改系統</h2>
         <label for="username" class="sr-only">Username</label>
@@ -17,6 +70,6 @@
         <input type="password" id="password" name="password" class="form-control" placeholder="Password" required="">
         <button class="btn btn-lg btn-primary btn-block" type="submit">登入</button>
       </form>
-    </div>
+    </div> -->
   </body>
 </html>

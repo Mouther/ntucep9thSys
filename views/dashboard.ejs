@@ -2,57 +2,298 @@
 <html ng-app="app">
   <head>
     <title><%= title %></title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/bower_components/angular-chart.js/dist/angular-chart.css">
-    <link rel='stylesheet' href='/css/style.css' />
-    <script src='/js/jquery-2.0.3.js'></script>
-    <script src='/js/bootstrap.js'></script>
+    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css"> -->
+    <!-- <link rel="stylesheet" href="/bower_components/angular-chart.js/dist/angular-chart.css"> -->
+    <!-- <link rel='stylesheet' href='/css/style.css' /> -->
+    <!-- <script src='/js/jquery-2.0.3.js'></script> -->
+    <!-- <script src='/js/bootstrap.js'></script> -->
     <script src='/js/angular.min.js'></script>
     <script src='/js/angular-sanitize.min.js'></script>
     <script src="/bower_components/Chart.js/Chart.js"></script>
     <script src="/bower_components/angular-chart.js/dist/angular-chart.js"></script>
     <script src='/js/app.js'></script>
+    <link rel="stylesheet" type="text/css" href="semantic/dist/semantic.min.css">
+    <script src="js/jquery-2.2.3.min.js"></script>
+    <script src="semantic/dist/semantic.min.js"></script>
+    <style type="text/css">
+
+      body {
+        background-color: #FFFFFF;
+      }
+      .main.container {
+        margin-top: 2em;
+      }
+
+      .main.menu {
+        margin-top: 4em;
+        border-radius: 0;
+        border: none;
+        box-shadow: none;
+        transition:
+          box-shadow 0.5s ease,
+          padding 0.5s ease
+        ;
+      }
+      .main.menu .item img.logo {
+        margin-right: 1.5em;
+      }
+
+      .overlay {
+        float: left;
+        margin: 0em 3em 1em 0em;
+      }
+      .overlay .menu {
+        position: relative;
+        left: 0;
+        transition: left 0.5s ease;
+      }
+
+      .main.menu.fixed {
+        background-color: #FFFFFF;
+        border: 1px solid #DDD;
+        box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.2);
+      }
+      .overlay.fixed .menu {
+        left: 800px;
+      }
+
+      .text.container .left.floated.image {
+        margin: 2em 2em 2em -4em;
+      }
+      .text.container .right.floated.image {
+        margin: 2em -4em 2em 2em;
+      }
+
+      .ui.footer.segment {
+        margin: 5em 0em 0em;
+        padding: 5em 0em;
+      }
+
+
+    </style>
+    <script type="text/javascript">
+    $(document)
+      .ready(function() {
+        // fix main menu to page on passing
+        $('.main.menu').visibility({
+          type: 'fixed'
+        });
+        $('.overlay').visibility({
+          type: 'fixed',
+          offset: 80
+        });
+
+        // lazy load images
+        $('.image').visibility({
+          type: 'image',
+          transition: 'vertical flip in',
+          duration: 500
+        });
+
+        // show dropdown on hover
+        $('.main.menu  .ui.dropdown').dropdown({
+          on: 'hover'
+        });
+        $('.ui.rating')
+          .rating()
+        ;
+
+      })
+    ;
+    </script>
   </head>
   <body ng-controller="DashBoardCtrl">
 
-    <% include ../views/nav %>
+    <div class="ui borderless main menu">
+      <div class="ui text container">
+        <div href="#" class="header item">
+          <img class="logo" src="/image/cep_only_logo-01.png">
+        </div>
+        <a class="item" href="/">批改系統</a>
+        <% if (user) { %>
+        <a class="item" href="/dashboard">成績總覽</a>
+        <% } %>
+          
+          <!-- <a class="ui inverted button">Sign Up</a> -->
+        </div>
+        
+    </div>
+    
 
-    <div class="container">
-      <h2><%= title %></h2>
+    <!-- Page Contents -->
+    <div class="pusher ">
+      <div class="ui vertical stripe segment">
+        <div class="row">
+            <div class="ui container">    
+              <h1 class="ui header"><%= title %></h1>
+              <h3>圖表標題輸入框內的數字可以更改，以即時互動</h3>
+              
+            </div>
+            
+          
+        </div>
+      </div>
       
-      <p><span class="label label-info">Info</span> 圖表標題的數字可以更改即時互動</p>
+      <!-- <div class="ui divider"></div> -->
+      <div class="ui internally celled grid container">
+        <div class="row">
+          <div class="nine wide column">
 
-      <div class="piechart">
-        <h2>總成績前 <span class="form-inline"><input type="text" class="form-control" ng-change="updateChart()" ng-model="chart_member" style="width:50px;"></span> 名科系分布圖</h2>
-        <div class="left">
-          <canvas id="pie" class="chart chart-pie" data="data"
-            labels="labels"></canvas>
+            <div class="piechart">
+                <h2 class="ui header">總成績前 <span class="form-inline"><input type="text" class="form-control" ng-change="updateChart()" ng-model="chart_member" style="width:50px;"></span> 名-科系分布圖</h2>
+                <div class="left">
+                  <canvas id="pie" class="chart chart-pie" data="data"
+                    labels="labels"></canvas>
+                </div>
+                
+            </div>
+          </div>
+          <div class="seven wide column">
+              <table class="ui striped table">
+                <thead>
+                  <tr>
+                    <th width="40%">學院別</th>
+                    <th width="60%">人數</th>
+                    
+                  </tr>
+                </thead>
+                <tbody>
+                  
+                  <tr class="list-group-item" ng-repeat="college in final_data | orderBy: '-data'">
+                    <td>{{college.label}}</td>
+                    <td class="badge">{{college.data}}</td>
+                  </tr>
+                </tbody>
+              </table>
+                
+          </div>
         </div>
-        <ul class="list-group right">
-          <li class="list-group-item" ng-repeat="college in final_data | orderBy: '-data'">
-            {{college.label}}
-            <span class="badge">{{college.data}}</span>
-          </li>
-        </ul>
       </div>
-      <div class="clearfix"></div>
-      <div class="piechart">
-        <h2>男女分布圖</h2>
-        <div class="left">
-          <canvas id="pie_gender" class="chart chart-pie" data="data_gender"
+      <!-- <div class="ui divider"></div>
+      <div class="ui internally celled grid container">
+        <div class="row">
+          <div class="nine wide column">
+
+            <div class="piechart">
+                <h2 class="ui header">總成績前 <span class="form-inline"><input type="text" class="form-control" ng-change="updateChart()" ng-model="chart_member" style="width:50px;"></span> 名-大學分布圖</h2>
+                <div class="left">
+                  <canvas id="pie_school" class="chart chart-pie" data="data_school"
+                    labels="labels_school"></canvas>
+                </div>
+                
+            </div>
+          </div>
+          <div class="seven wide column">
+              <table class="ui striped table">
+                <thead>
+                  <tr>
+                    <th width="40%">大學</th>
+                    <th width="60%">人數</th>
+                    
+                  </tr>
+                </thead>
+                <tbody>
+                  
+                  <tr class="list-group-item" ng-repeat="school in final_data_school | orderBy: '-data'">
+                    <td>{{school.label}}</td>
+                    <td class="badge">{{school.data}}</td>
+                  </tr>
+                </tbody>
+              </table>
+                
+          </div>
+        </div>
+      </div> -->
+      <div class="ui divider"></div>
+      <div class="ui internally celled grid container">
+        <div class="row">
+          <div class="nine wide column">
+
+            <div class="piechart">
+                <h2 class="ui header">總成績前 <span class="form-inline"><input type="text" class="form-control" ng-change="updateChart()" ng-model="chart_member" style="width:50px;"></span> 名-男女分布圖</h2>
+                <div class="left">
+                  <canvas id="pie_gender" class="chart chart-pie" data="data_gender"
             labels="labels_gender"></canvas>
+                </div>
+                
+            </div>
+          </div>
+          <div class="seven wide column">
+              <table class="ui striped table">
+                <thead>
+                  <tr>
+                    <th width="40%">性別</th>
+                    <th width="60%">人數</th>
+                    
+                  </tr>
+                </thead>
+                <tbody>
+                 
+                  <tr class="list-group-item" ng-repeat="gender in final_data_gender | orderBy: '-data'">
+                    <td>{{gender.label}}</td>
+                    <td class="badge">{{gender.data}}</td>
+                  </tr>
+                </tbody>
+              </table>
+                
+          </div>
         </div>
-        <ul class="list-group right">
-          <li class="list-group-item" ng-repeat="gender in final_data_gender | orderBy: '-data'">
-            {{gender.label}}
-            <span class="badge">{{gender.data}}</span>
-          </li>
-        </ul>
       </div>
+      <div class="ui divider"></div>
+      <div class="ui container">
+        <h1 class="ui header">成績列表</h1>
+        <p><i class="icon alarm outline"></i> 點擊「#」或 「總分」 可以排序，再次點擊反向排序</p>
+        <p><i class="icon alarm outline"></i> 成績評分者依序為: 李吉仁 老師(jrlee)、林晉玄 老師(shihchung)、王振吉 老師(jackwang)、徐黎芳 老師(lifanghsu)</p>
+        <table class="ui striped celled definition table">
+          <thead class="full-width">
+            <tr>
+              <th style="width:5%;" ng-click="predicate = 'id'; reverse = !reverse">序號<i class='sort icon'></i></th>
+              <th style="width:6%;">團體</th>
+              <th style="width:6%;">姓名</th>
+              <th style="width:4%;">性別</th>
+              <th style="width:5%;">學號</th>
+              <th style="width:10%;">大學</th>
+              <th style="width:10%;">學院別</th>
+              <th style="width:10%;">科系</th>
+              <th style="width:10%;">年級</th>
+              <th style="width:6%;">個別評分</th>
+              <th style="width:6%;" ng-click="predicate = 'score.total'; reverse = !reverse">總分<i class='sort icon'></i></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="user in users | orderBy:predicate:reverse" ng-init="total = user.score.mentor1_score + user.score.mentor2_score + user.score.mentor3_score + user.score.mentor4_score">
+              <!-- <td>{{user.id}}</th> -->
+              <td>
+                <!-- <div class="ui fitted toggle checkbox">
+                  <input type="checkbox"> <label></label>
+                </div> -->
+                {{$index+1}}
+              </td>
+              <td><div ng-show="{{user.is_team}}"><i class="users large orange icon"></i></div></td>
+              <td><a href="{{user.facebook_link}}" target="_blank">{{user.name}}</a></td>
+              <td>{{user.gender}}</td>
+              <td>{{user.student_id}}</td>
+              <td>{{user.school}}</td>
+              <td>{{user.college}}</td>
+              <td>{{user.department}}</td>
+              <td>{{user.grade}}</td>
+              <td style="width: 15%">{{user.score.mentor1_score || 'x'}} | {{user.score.mentor2_score || 'x'}} | {{user.score.mentor3_score || 'x'}} | {{user.score.mentor4_score || 'x'}}</td>
+              <td>{{user.score.total}}</td>
+              
+            </tr>
+            
+          </tbody>
+      </table>
+    </div>
+    </div>
+    <div class="container">
+
+      
+      
       <div class="clearfix"></div>
-      <p><span class="label label-info">Info</span> 點擊 #, total 可以排序，再次點擊反向排序</p>
-      <p><span class="label label-info">Info</span> 成績依序為封面(jrlee)、創業技能(jrlee)、影片(shihchung)、成功經驗(tmliu)、失敗經驗(tmliu)</p>
-      <table class="table table-hover header-fixed2 header-fixed">
+      <!-- <p><span class="label label-info">Info</span> 點擊 #, total 可以排序，再次點擊反向排序</p>
+      <p><span class="label label-info">Info</span> 成績依序為封面(jrlee)、創業技能(jrlee)、影片(shihchung)、成功經驗(tmliu)、失敗經驗(tmliu)</p> -->
+      <!-- <table class="table table-hover header-fixed2 header-fixed">
         <thead>
           <tr>
             <th style="width:7%">流水號</th>
@@ -79,7 +320,7 @@
             <td>{{user.score.total}}</td>
           </tr>
         </tbody>
-      </table>
+      </table> -->
     </div> <!-- end of container -->
   </body>
 </html>

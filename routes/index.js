@@ -67,7 +67,7 @@ router.get('/', ensureAuthenticated, function(req, res) {
   if (req.user.id == '4') {
     return res.redirect('/dashboard');
   };
-  return res.render('index', { title: '創八報名 批改系統' , user: req.user});
+  return res.render('index', { title: '創九報名 批改系統' , user: req.user});
 });
 
 router.get('/dashboard', ensureAuthenticated, function(req, res) {
@@ -141,16 +141,16 @@ router.get('/api/alldata', apiEnsureAuthenticated, function(req, res) {
   });
 });
 
-router.get('/api/score/jr/:id/:cover_link_score/:skill_score', apiEnsureAuthenticated, function(req, res) {
+router.get('/api/score/jr/:id/:all_score', apiEnsureAuthenticated, function(req, res) {
   var id = req.params.id;
-  var cover_link_score = req.params.cover_link_score;
-  var skill_score = req.params.skill_score;
-  console.log('cover_link_score: ', cover_link_score);
-  console.log('skill_score: ', skill_score);
+  var all_score = req.params.all_score;
+  // var skill_score = req.params.skill_score;
+  console.log('all_score: ', all_score);
+  // console.log('skill_score: ', skill_score);
   User.findOneAndUpdate({id: id}, {
     $set: {
-      'score.cover_link_score': cover_link_score,
-      'score.skill_score': skill_score
+      'score.mentor1_score': all_score,
+      // 'score.skill_score': skill_score
     }}, {upsert: true}, function(err) {
       if (err) {
         res.json({message:'error'});

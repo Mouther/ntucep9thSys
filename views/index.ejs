@@ -2,21 +2,401 @@
 <html ng-app="app">
   <head>
     <title><%= title %></title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
-    <link rel='stylesheet' href='/css/style.css' />
-    <script src='/js/jquery-2.0.3.js'></script>
-    <script src='/js/bootstrap.js'></script>
+    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css"> -->
+    <!-- <link rel='stylesheet' href='/css/style.css' /> -->
+    <!-- <script src='/js/jquery-2.0.3.js'></script> -->
+    <!-- <script src='/js/bootstrap.js'></script> -->
     <script src='/js/angular.min.js'></script>
     <script src='/js/angular-sanitize.min.js'></script>
     <script src="/bower_components/Chart.js/Chart.js"></script>
     <script src="/bower_components/angular-chart.js/dist/angular-chart.js"></script>
     <script src='/js/app.js'></script>
+    <link rel="stylesheet" type="text/css" href="semantic/dist/semantic.min.css">
+    <script src="js/jquery-2.2.3.min.js"></script>
+    <script src="semantic/dist/semantic.min.js"></script>
+
+    <style type="text/css">
+
+      .hidden.menu {
+        display: none;
+      }
+
+      .masthead.segment {
+        min-height: 700px;
+        padding: 1em 0em;
+      }
+      .masthead .logo.item img {
+        margin-right: 1em;
+      }
+      .masthead .ui.menu .ui.button {
+        margin-left: 0.5em;
+      }
+      .masthead h1.ui.header {
+        margin-top: 3em;
+        margin-bottom: 0em;
+        font-size: 4em;
+        font-weight: normal;
+      }
+      .masthead h2 {
+        font-size: 1.7em;
+        font-weight: normal;
+      }
+
+      .ui.vertical.stripe {
+        padding: 8em 0em;
+      }
+      .ui.vertical.stripe h3 {
+        font-size: 2em;
+      }
+      .ui.vertical.stripe .button + h3,
+      .ui.vertical.stripe p + h3 {
+        margin-top: 3em;
+      }
+      .ui.vertical.stripe .floated.image {
+        clear: both;
+      }
+      .ui.vertical.stripe p {
+        font-size: 1.33em;
+      }
+      .ui.vertical.stripe .horizontal.divider {
+        margin: 3em 0em;
+      }
+
+      .quote.stripe.segment {
+        padding: 0em;
+      }
+      .quote.stripe.segment .grid .column {
+        padding-top: 5em;
+        padding-bottom: 5em;
+      }
+
+      .footer.segment {
+        padding: 5em 0em;
+      }
+
+      .secondary.pointing.menu .toc.item {
+        display: none;
+      }
+
+      @media only screen and (max-width: 700px) {
+        .ui.fixed.menu {
+          display: none !important;
+        }
+        .secondary.pointing.menu .item,
+        .secondary.pointing.menu .menu {
+          display: none;
+        }
+        .secondary.pointing.menu .toc.item {
+          display: block;
+        }
+        .masthead.segment {
+          min-height: 350px;
+        }
+        .masthead h1.ui.header {
+          font-size: 2em;
+          margin-top: 1.5em;
+        }
+        .masthead h2 {
+          margin-top: 0.5em;
+          font-size: 1.5em;
+        }
+      }
+
+
+    </style>
+    <script type="text/javascript">
+    $(document)
+      .ready(function() {
+
+        // fix menu when passed
+        $('.masthead')
+          .visibility({
+            once: false,
+            onBottomPassed: function() {
+              $('.fixed.menu').transition('fade in');
+            },
+            onBottomPassedReverse: function() {
+              $('.fixed.menu').transition('fade out');
+            }
+          })
+        ;
+        $('.overlay').visibility({
+          type: 'fixed',
+          offset: 400
+        });
+        // create sidebar and attach to menu open
+        $('.ui.sidebar')
+          .sidebar('attach events', '.toc.item')
+        ;
+        $('.ui.rating')
+          .rating('disable')
+        ;
+
+      })
+    ;
+    </script>
   </head>
   <body ng-controller="MainCtrl">
+    <!-- Sidebar Menu -->
+    <div class="ui vertical inverted sidebar menu">
+      <div class="item">創創報名批改系統</div>
+      <a class="active item" href="/">批改系統</a>
+      <% if (user) { %>
+        <a class="item" href="/dashboard">成績總覽</a>
+      <% } %>
+      <% if (user) { %>    
+        <div class="item">
+          <div>正以<%= user.username %>身份登入</div>
+        </div>
+        <div class="item">
+          <a class="ui button" href="logout">登出</a>
+        </div>
+      <% } else { %>
+        <div class="item">
+          <a class="ui button">登入</a>
+        </div>
+      <% } %>
+    </div>
+    <!-- Following Menu -->
+    <div class="ui large top fixed hidden menu">
+      <div class="ui container">
+        <div class="item">
+          <img src="/image/cep_only_logo-01.png" class="image" width="20"></img>
+        </div>
+        <a class="active item" href="/">批改系統</a>
+        <% if (user) { %>
+          <a class="item" href="/dashboard">成績總覽</a>
+        <% } %>
+        <div class="right menu">
+          <% if (user) { %>    
+            <div class="item">
+              <div>正以<%= user.username %>身份登入</div>
+            </div>
+            <div class="item">
+              <a class="ui button" href="logout">登出</a>
+            </div>
+          <% } else { %>
+            <div class="item">
+              <a class="ui button">登入</a>
+            </div>
+          <% } %>
+          
+        </div>
+      </div>
+    </div>
+    <!-- Page Contents -->
+    <div class="pusher">
+      <div class="ui inverted vertical masthead center aligned segment"  style="background:#00B5B4">
 
-    <% include ../views/nav %>
+        <div class="ui container">
+          <div class="ui large secondary inverted pointing menu">
+            <a class="toc item">
+              <!-- <h4><%= title %></h4> -->
+              <i class="sidebar icon"></i>
+              
+            </a>
+            <div class="item">
+              <img src="/image/cep_only_logo-01.png" class="image" width="20"></img>
+            </div>
+            <a class="active item" href="/">批改系統</a>
+            <% if (user) { %>
+            <a class="item" href="/dashboard">成績總覽</a>
+            <% } %>
+            <div class="right item">
+              <% if (user) { %>          
+                <div class="item">
+                  <div>正以<%= user.username %>身份登入</div>
+                </div>
+                <a class="ui inverted button" href="logout">登出</a>
+              <% } else { %>
+                <a class="ui inverted button">登入</a>
+              <% } %>
+              
+              <!-- <a class="ui inverted button">Sign Up</a> -->
+            </div>
+          </div>
+        </div>
 
-    <div class="container">
+        <div class="ui text container">
+          <h1 class="ui inverted header" style="margin-top:2em;">
+            <%= title %>
+          </h1>
+          <h2>Hello, <%= user.name %>!</h2>
+          <p> 歡迎來到 <%= title %></p>
+          <p>以下說明很重要，請仔細閱讀，</p>
+          <p>若有問題請透過我的信箱聯絡:evin92@gmail.com <a href="mailto:evin92@gmail.com">[快速寄信]</a></p>
+          <p>緊急時刻請打 0987-838-646 林哲緯</p>
+          <!-- <div class="ui huge primary button">Get Started <i class="right arrow icon"></i></div> -->
+        </div>
+
+      </div>
+        
+      <div class="ui vertical stripe segment">
+        <div class="row">
+            <div class="ui container">    
+              <h3 class="ui header">報名新生列表 (合計:{{filteredUsers.length}} )</h3>
+
+                <div class="ui menu">
+                  <div class="header item">快速篩選:</div>
+                  <div class="ui icon input item">
+                    <input type="text" ng-model="name_filter" class="form-control" placeholder="搜尋姓名...", size="10">
+                    <!-- <i class="users icon"></i> -->
+                  </div>
+                  <div class="ui icon input item">
+                    <input type="text" ng-model="id_filter" class="form-control" placeholder="搜尋學號...", size="10">
+                    <!-- <i class="browser icon"></i> -->
+                  </div>
+                  
+                  <div class="ui icon input item">
+                    <label>個/團:
+                      <select class="ui search dropdown" ng-model="team_filter">
+                        <option value="">無分類:</option>
+                        <option value="false">個人</option>
+                        <option value="true">團體</option>
+                        
+                      </select>
+                    </label>
+
+                  </div>
+                  <div class="ui icon input item">
+                    <label>學校別:
+                      <select class="ui search dropdown" ng-model="school_filter">
+                        <option value="">無分類:</option>
+                        <option value="國立臺灣大學">台大</option>
+                        <option value="國立台灣師範大學">師大</option>
+                        <option value="國立臺灣科技大學">台科大</option>
+                      </select>
+                    </label>
+
+                    <!-- <input type="text" ng-model="school_filter" class="form-control" placeholder="學校分類..."> -->
+                    <!-- <i class="browser icon"></i> -->
+                  </div>
+                  <div class="ui icon input item">
+                    <label>年級別:
+                      <select class="ui search dropdown" ng-model="grade_filter">
+                        <option value="">無分類:</option>
+                        <option value="碩">碩士</option>
+                        <option value="博">博士</option>
+                      </select>
+                    </label>
+                  </div>
+                  <div class="ui icon input item">
+                    <label>評分別:
+                      <select class="ui search dropdown" ng-model="score_filter">
+                        <option value="">無分類:</option>
+                        <option value="3">3</option>
+                        <option value="2">2</option>
+                        <option value="1">1</option>
+                      </select>
+                    </label>
+                  </div>
+                </div>
+                <p ng-hide="filteredUsers.length">There is no result</p>
+                
+                <table class="ui striped celled definition table">
+                    <thead class="full-width">
+                      <tr>
+                        <th style="width:3%;">序號</th>
+                        <th style="width:3%;">團體</th>
+                        <th style="width:6%;">姓名</th>
+                        <th style="width:5%;">學號</th>
+                        <th style="width:10%;">大學</th>
+                        <th style="width:10%;">學院別</th>
+                        <th style="width:10%;">科系</th>
+                        <th style="width:10%;">年級</th>
+                        <th style="width:6%;">評分</th>
+                        <th style="width:10%;">查看</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr ng-repeat="user in filteredUsers = (users | filter: {'id': id_filter, 'name': name_filter, 'school': school_filter, 'grade': grade_filter, 'score': score_filter, 'is_team':team_filter})| orderBy:'id' " ng-show="user_id == '1'">
+                        <!-- <td>{{user.id}}</th> -->
+                        <td>
+                          <!-- <div class="ui fitted toggle checkbox">
+                            <input type="checkbox"> <label></label>
+                          </div> -->
+                          {{$index+1}}
+                        </td>
+                        <td><div ng-show="{{user.is_team}}"><i class="users large orange icon"></i></div></td>
+                        <td><a href="{{user.facebook_link}}" target="_blank">{{user.name}}</a></td>
+                        <td>{{user.student_id}}</td>
+                        <td>{{user.school}}</td>
+                        <td>{{user.college}}</td>
+                        <td>{{user.department}}</td>
+                        <td>{{user.grade}}</td>
+                        <td>
+                          
+                          <!-- </div>  -->
+                          <!-- <i class='icon star' ng-repeat="n in [] | range:6"></i> -->
+                          {{user.score.mentor1_score}}
+                          <!-- 
+                          
+                          <div class="ui massive star rating" data-rating={{user.score.mentor1_score}} data-max-rating="3"></div> -->
+                        </td>                       
+                        <td ng-show="user.score.mentor1_score" class="text-success">
+                          <a href="/applicants/{{user.id}}" class="ui small animated inverted green button">
+                            <div class="visible content">已批改</div>
+                            <div class="hidden content">
+                              修改
+                            </div>
+                          </a>
+                        </td>
+                        <td ng-hide="user.score.mentor1_score">
+                          <a href="/applicants/{{user.id}}" class="ui small animated inverted red button" tabindex="0">
+                            <div class="visible content">批改</div>
+                            <div class="hidden content">
+                              <i class="right arrow icon"></i>
+                            </div>
+                          </a>
+                          <!-- <a href="/applicants/{{user.id}}">批改</a> -->
+                        </td>
+                      </tr>
+                      <tr ng-repeat="user in users | orderBy:'id' | filter: {'id': id_filter, 'name': name_filter, 'school': school_filter, 'grade': grade_filter, 'is_team':team_filter}" ng-show="user_id == '2'">
+                        <td>{{user.id}}</th>
+                        <td><div ng-show="{{user.is_team}}"><i class="users large orange icon"></i></div></td>
+                        <td>{{user.name}}</td>
+                        <td>{{user.student_id}}</td>
+                        <td>{{user.school}}</td>
+                        <td>{{user.college}}</td>
+                        <td>{{user.department}}</td>
+                        <td>{{user.grade}}</td>
+                        <td><div class="ui star rating" data-rating="3"></div>
+                        </td>
+                        <td ng-show="user.score.youtube_link_score" class="text-success"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span> 已批改 | <a class="text-danger" href="/applicants/{{user.id}}">修改</a></td>
+                        <td ng-hide="user.score.youtube_link_score"><a href="/applicants/{{user.id}}">批改</a></td>
+                      </tr>
+                      <tr ng-repeat="user in users | orderBy:'id' | filter: {'id': id_filter, 'name': name_filter, 'school': school_filter, 'grade': grade_filter, 'is_team':team_filter}" ng-show="user_id == '3'">
+                        <td>{{user.id}}</th>
+                        <td><div ng-show="{{user.is_team}}"><i class="users large orange icon"></i></div></td>
+                        <td>{{user.name}}</td>
+                        <td>{{user.student_id}}</td>
+                        <td>{{user.school}}</td>
+                        <td>{{user.college}}</td>
+                        <td>{{user.department}}</td>
+                        <td>{{user.grade}}</td>
+                        <td><div class="ui star rating" data-rating="3"></div></td>
+                        <td ng-show="user.score.success_item_score && user.score.fail_item_score" class="text-success"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span> 已批改 | <a class="text-danger" href="/applicants/{{user.id}}">修改</a></td>
+                        <td ng-hide="user.score.success_item_score && user.score.fail_item_score"><a href="/applicants/{{user.id}}">批改</a></td>
+                      </tr>
+                    </tbody>
+                </table>
+                <!-- <a class="ui large button">Read More</a> -->
+                <!-- <h4 class="ui horizontal header divider">
+                  <a href="#">Case Studies</a>
+                </h4>
+                <h3 class="ui header">Did We Tell You About Our Bananas?</h3>
+                  <p>Yes I know you probably disregarded the earlier boasts as non-sequitor filler content, but its really true. It took years of gene splicing and combinatory DNA research, but our bananas can really dance.</p>
+                <a class="ui large button">I'm Still Quite Interested</a> -->
+            </div>
+          
+          
+        </div>
+      </div>
+
+      
+    </div>
+    
+   <!--  <div class="container">
       <h1><%= title %></h1>
       <% if (user) { %>
       <div class="bg-warning pad20">
@@ -33,60 +413,10 @@
         <p>使用完後請記得  <a href="/logout">登出</a> （下次瀏覽器會記住登入狀態）</p>
       </div>
       <hr>
-      <h2>報名列表</h2>
-      <div class="filter form-inline">快速篩選:
-      <input type="text" ng-model="id_filter" class="form-control" placeholder="輸入數字"> 或 
-      <input type="text" ng-model="name_filter" class="form-control" placeholder="輸入名字">
-      </div>
-      <table class="table table-hover header-fixed">
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>name</th>
-            <th>student id</th>
-            <th>college</th>
-            <th>department</th>
-            <th>grade</th>
-            <th>~</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr ng-repeat="user in users | orderBy:'id' | filter: {'id': id_filter, 'name': name_filter}" ng-show="user_id == '1'">
-            <td>{{user.id}}</th>
-            <td>{{user.name}}</td>
-            <td>{{user.student_id}}</td>
-            <td>{{user.college}}</td>
-            <td>{{user.department}}</td>
-            <td>{{user.grade}}</td>
-            <td ng-show="user.score.skill_score && user.score.cover_link_score" class="text-success"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span> 已批改 | <a class="text-danger" href="/applicants/{{user.id}}">修改</a></td>
-            <td ng-hide="user.score.skill_score && user.score.cover_link_score"><a href="/applicants/{{user.id}}">批改</a></td>
-          </tr>
-          <tr ng-repeat="user in users | orderBy:'id' | filter: {'id': id_filter, 'name': name_filter}" ng-show="user_id == '2'">
-            <td>{{user.id}}</th>
-            <td>{{user.name}}</td>
-            <td>{{user.student_id}}</td>
-            <td>{{user.college}}</td>
-            <td>{{user.department}}</td>
-            <td>{{user.grade}}</td>
-            <td ng-show="user.score.youtube_link_score" class="text-success"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span> 已批改 | <a class="text-danger" href="/applicants/{{user.id}}">修改</a></td>
-            <td ng-hide="user.score.youtube_link_score"><a href="/applicants/{{user.id}}">批改</a></td>
-          </tr>
-          <tr ng-repeat="user in users | orderBy:'id' | filter: {'id': id_filter, 'name': name_filter}" ng-show="user_id == '3'">
-            <td>{{user.id}}</th>
-            <td>{{user.name}}</td>
-            <td>{{user.student_id}}</td>
-            <td>{{user.college}}</td>
-            <td>{{user.department}}</td>
-            <td>{{user.grade}}</td>
-            <td ng-show="user.score.success_item_score && user.score.fail_item_score" class="text-success"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span> 已批改 | <a class="text-danger" href="/applicants/{{user.id}}">修改</a></td>
-            <td ng-hide="user.score.success_item_score && user.score.fail_item_score"><a href="/applicants/{{user.id}}">批改</a></td>
-          </tr>
-        </tbody>
-      </table>
 
       <% } else { %>
       <p>請先登入！</p>
       <% } %>
-    </div> <!-- end of container -->
+    </div>  -->
   </body>
 </html>
