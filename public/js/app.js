@@ -41,11 +41,13 @@ angular.module('app', ['ngSanitize', 'chart.js'])
       alert('有錯誤');
     });
   };
-
-  $scope.SCsubmitScore = function() {
+  $scope.CSsubmitScore = function() {
     var id = $scope.user.id;
-    var youtube_link_score = $scope.user.score.youtube_link_score;
-    $http.get('/api/score/sc/'+id+'/'+youtube_link_score)
+    var all_score = $('.ui.rating#thisStudent i.active').length;
+    // var skill_score = $scope.user.score.skill_score;
+    console.log(id);
+    console.log(all_score);
+    $http.get('/api/score/cs/'+id+'/'+all_score)
     .success(function(data, status, header, config) {
       alert('系統已記錄成績');
       window.location.href = '/'
@@ -53,13 +55,14 @@ angular.module('app', ['ngSanitize', 'chart.js'])
     .error(function(data, status, header, config){
       alert('有錯誤');
     });
-  }
-
-  $scope.TMsubmitScore = function() {
+  };
+  $scope.WANGsubmitScore = function() {
     var id = $scope.user.id;
-    var success_item_score = $scope.user.score.success_item_score;
-    var fail_item_score = $scope.user.score.fail_item_score;
-    $http.get('/api/score/tm/'+id+'/'+success_item_score+'/'+fail_item_score)
+    var all_score = $('.ui.rating#thisStudent i.active').length;
+    // var skill_score = $scope.user.score.skill_score;
+    console.log(id);
+    console.log(all_score);
+    $http.get('/api/score/jack/'+id+'/'+all_score)
     .success(function(data, status, header, config) {
       alert('系統已記錄成績');
       window.location.href = '/'
@@ -67,7 +70,48 @@ angular.module('app', ['ngSanitize', 'chart.js'])
     .error(function(data, status, header, config){
       alert('有錯誤');
     });
-  }
+  };
+  $scope.LFsubmitScore = function() {
+    var id = $scope.user.id;
+    var all_score = $('.ui.rating#thisStudent i.active').length;
+    // var skill_score = $scope.user.score.skill_score;
+    console.log(id);
+    console.log(all_score);
+    $http.get('/api/score/lf/'+id+'/'+all_score)
+    .success(function(data, status, header, config) {
+      alert('系統已記錄成績');
+      window.location.href = '/'
+    })
+    .error(function(data, status, header, config){
+      alert('有錯誤');
+    });
+  };
+  // $scope.SCsubmitScore = function() {
+  //   var id = $scope.user.id;
+  //   var youtube_link_score = $scope.user.score.youtube_link_score;
+  //   $http.get('/api/score/sc/'+id+'/'+youtube_link_score)
+  //   .success(function(data, status, header, config) {
+  //     alert('系統已記錄成績');
+  //     window.location.href = '/'
+  //   })
+  //   .error(function(data, status, header, config){
+  //     alert('有錯誤');
+  //   });
+  // }
+
+  // $scope.TMsubmitScore = function() {
+  //   var id = $scope.user.id;
+  //   var success_item_score = $scope.user.score.success_item_score;
+  //   var fail_item_score = $scope.user.score.fail_item_score;
+  //   $http.get('/api/score/tm/'+id+'/'+success_item_score+'/'+fail_item_score)
+  //   .success(function(data, status, header, config) {
+  //     alert('系統已記錄成績');
+  //     window.location.href = '/'
+  //   })
+  //   .error(function(data, status, header, config){
+  //     alert('有錯誤');
+  //   });
+  // }
 }])
 
 .controller('DashBoardCtrl', ['$scope', '$sce', '$http', function($scope, $sce, $http) {

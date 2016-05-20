@@ -310,13 +310,7 @@
                     </thead>
                     <tbody>
                       <tr ng-repeat="user in filteredUsers = (users | filter: {'id': id_filter, 'name': name_filter, 'school': school_filter, 'grade': grade_filter, 'score': score_filter, 'is_team':team_filter})| orderBy:'id' " ng-show="user_id == '1'">
-                        <!-- <td>{{user.id}}</th> -->
-                        <td>
-                          <!-- <div class="ui fitted toggle checkbox">
-                            <input type="checkbox"> <label></label>
-                          </div> -->
-                          {{$index+1}}
-                        </td>
+                        <td>{{$index+1}}</td>
                         <td><div ng-show="{{user.is_team}}"><i class="users large orange icon"></i></div></td>
                         <td><a href="{{user.facebook_link}}" target="_blank">{{user.name}}</a></td>
                         <td>{{user.student_id}}</td>
@@ -324,15 +318,7 @@
                         <td>{{user.college}}</td>
                         <td>{{user.department}}</td>
                         <td>{{user.grade}}</td>
-                        <td>
-                          
-                          <!-- </div>  -->
-                          <!-- <i class='icon star' ng-repeat="n in [] | range:6"></i> -->
-                          {{user.score.mentor1_score}}
-                          <!-- 
-                          
-                          <div class="ui massive star rating" data-rating={{user.score.mentor1_score}} data-max-rating="3"></div> -->
-                        </td>                       
+                        <td>{{user.score.mentor1_score}}</td>
                         <td ng-show="user.score.mentor1_score" class="text-success">
                           <a href="/applicants/{{user.id}}" class="ui small animated inverted green button">
                             <div class="visible content">已批改</div>
@@ -348,45 +334,92 @@
                               <i class="right arrow icon"></i>
                             </div>
                           </a>
-                          <!-- <a href="/applicants/{{user.id}}">批改</a> -->
                         </td>
                       </tr>
-                      <tr ng-repeat="user in users | orderBy:'id' | filter: {'id': id_filter, 'name': name_filter, 'school': school_filter, 'grade': grade_filter, 'is_team':team_filter}" ng-show="user_id == '2'">
-                        <td>{{user.id}}</th>
+                      <tr ng-repeat="user in filteredUsers = (users | filter: {'id': id_filter, 'name': name_filter, 'school': school_filter, 'grade': grade_filter, 'score': score_filter, 'is_team':team_filter})| orderBy:'id' " ng-show="user_id == '2'">
+                        <td>{{$index+1}}</td>
                         <td><div ng-show="{{user.is_team}}"><i class="users large orange icon"></i></div></td>
-                        <td>{{user.name}}</td>
+                        <td><a href="{{user.facebook_link}}" target="_blank">{{user.name}}</a></td>
                         <td>{{user.student_id}}</td>
                         <td>{{user.school}}</td>
                         <td>{{user.college}}</td>
                         <td>{{user.department}}</td>
                         <td>{{user.grade}}</td>
-                        <td><div class="ui star rating" data-rating="3"></div>
+                        <td>{{user.score.mentor2_score}}</td>
+                        <td ng-show="user.score.mentor2_score" class="text-success">
+                          <a href="/applicants/{{user.id}}" class="ui small animated inverted green button">
+                            <div class="visible content">已批改</div>
+                            <div class="hidden content">
+                              修改
+                            </div>
+                          </a>
                         </td>
-                        <td ng-show="user.score.youtube_link_score" class="text-success"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span> 已批改 | <a class="text-danger" href="/applicants/{{user.id}}">修改</a></td>
-                        <td ng-hide="user.score.youtube_link_score"><a href="/applicants/{{user.id}}">批改</a></td>
-                      </tr>
-                      <tr ng-repeat="user in users | orderBy:'id' | filter: {'id': id_filter, 'name': name_filter, 'school': school_filter, 'grade': grade_filter, 'is_team':team_filter}" ng-show="user_id == '3'">
-                        <td>{{user.id}}</th>
+                        <td ng-hide="user.score.mentor2_score">
+                          <a href="/applicants/{{user.id}}" class="ui small animated inverted red button" tabindex="0">
+                            <div class="visible content">批改</div>
+                            <div class="hidden content">
+                              <i class="right arrow icon"></i>
+                            </div>
+                          </a>
+                        </td>
+                      </tr> 
+                      <tr ng-repeat="user in filteredUsers = (users | filter: {'id': id_filter, 'name': name_filter, 'school': school_filter, 'grade': grade_filter, 'score': score_filter, 'is_team':team_filter})| orderBy:'id' " ng-show="user_id == '3'">
+                        <td>{{$index+1}}</td>
                         <td><div ng-show="{{user.is_team}}"><i class="users large orange icon"></i></div></td>
-                        <td>{{user.name}}</td>
+                        <td><a href="{{user.facebook_link}}" target="_blank">{{user.name}}</a></td>
                         <td>{{user.student_id}}</td>
                         <td>{{user.school}}</td>
                         <td>{{user.college}}</td>
                         <td>{{user.department}}</td>
                         <td>{{user.grade}}</td>
-                        <td><div class="ui star rating" data-rating="3"></div></td>
-                        <td ng-show="user.score.success_item_score && user.score.fail_item_score" class="text-success"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span> 已批改 | <a class="text-danger" href="/applicants/{{user.id}}">修改</a></td>
-                        <td ng-hide="user.score.success_item_score && user.score.fail_item_score"><a href="/applicants/{{user.id}}">批改</a></td>
+                        <td>{{user.score.mentor3_score}}</td>
+                        <td ng-show="user.score.mentor3_score" class="text-success">
+                          <a href="/applicants/{{user.id}}" class="ui small animated inverted green button">
+                            <div class="visible content">已批改</div>
+                            <div class="hidden content">
+                              修改
+                            </div>
+                          </a>
+                        </td>
+                        <td ng-hide="user.score.mentor3_score">
+                          <a href="/applicants/{{user.id}}" class="ui small animated inverted red button" tabindex="0">
+                            <div class="visible content">批改</div>
+                            <div class="hidden content">
+                              <i class="right arrow icon"></i>
+                            </div>
+                          </a>
+                        </td>
                       </tr>
+                      <tr ng-repeat="user in filteredUsers = (users | filter: {'id': id_filter, 'name': name_filter, 'school': school_filter, 'grade': grade_filter, 'score': score_filter, 'is_team':team_filter})| orderBy:'id' " ng-show="user_id == '4'">
+                        <td>{{$index+1}}</td>
+                        <td><div ng-show="{{user.is_team}}"><i class="users large orange icon"></i></div></td>
+                        <td><a href="{{user.facebook_link}}" target="_blank">{{user.name}}</a></td>
+                        <td>{{user.student_id}}</td>
+                        <td>{{user.school}}</td>
+                        <td>{{user.college}}</td>
+                        <td>{{user.department}}</td>
+                        <td>{{user.grade}}</td>
+                        <td>{{user.score.mentor4_score}}</td>
+                        <td ng-show="user.score.mentor4_score" class="text-success">
+                          <a href="/applicants/{{user.id}}" class="ui small animated inverted green button">
+                            <div class="visible content">已批改</div>
+                            <div class="hidden content">
+                              修改
+                            </div>
+                          </a>
+                        </td>
+                        <td ng-hide="user.score.mentor4_score">
+                          <a href="/applicants/{{user.id}}" class="ui small animated inverted red button" tabindex="0">
+                            <div class="visible content">批改</div>
+                            <div class="hidden content">
+                              <i class="right arrow icon"></i>
+                            </div>
+                          </a>
+                        </td>
+                      </tr>                                        
                     </tbody>
                 </table>
-                <!-- <a class="ui large button">Read More</a> -->
-                <!-- <h4 class="ui horizontal header divider">
-                  <a href="#">Case Studies</a>
-                </h4>
-                <h3 class="ui header">Did We Tell You About Our Bananas?</h3>
-                  <p>Yes I know you probably disregarded the earlier boasts as non-sequitor filler content, but its really true. It took years of gene splicing and combinatory DNA research, but our bananas can really dance.</p>
-                <a class="ui large button">I'm Still Quite Interested</a> -->
+                
             </div>
           
           

@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html ng-app="app">
+  <head>
+    <title>創九報名 批改系統</title>
+    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css"> -->
+    <!-- <link rel='stylesheet' href='/css/style.css' /> -->
+    <script src="/js/jquery-2.2.3.min.js"></script>
+    <script src='/js/angular.min.js'></script>
+    <script src='/js/angular-sanitize.min.js'></script>
+    <script src="/bower_components/Chart.js/Chart.js"></script>
+    <script src="/bower_components/angular-chart.js/dist/angular-chart.js"></script>
+    <script src='/js/app.js'></script>
+    <link rel="stylesheet" type="text/css" href="/semantic/dist/semantic.min.css">
+    
+    <script src="/semantic/dist/semantic.min.js"></script>
+
+    <style type="text/css">
+
+      body {
+        background-color: #FFFFFF;
+      }
+      .main.container {
+        margin-top: 2em;
+      }
+
+      .main.menu {
+        margin-top: 4em;
+        border-radius: 0;
+        border: none;
+        box-shadow: none;
+        transition:
+          box-shadow 0.5s ease,
+          padding 0.5s ease
+        ;
+      }
+      .main.menu .item img.logo {
+        margin-right: 1.5em;
+      }
+
+      .overlay {
+        float: left;
+        margin: 0em 3em 1em 0em;
+      }
+      .overlay .menu {
+        position: relative;
+        left: 0;
+        transition: left 0.5s ease;
+      }
+
+      .main.menu.fixed {
+        background-color: #FFFFFF;
+        border: 1px solid #DDD;
+        box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.2);
+      }
+      .overlay.fixed .menu {
+        left: 800px;
+      }
+
+      .text.container .left.floated.image {
+        margin: 2em 2em 2em -4em;
+      }
+      .text.container .right.floated.image {
+        margin: 2em -4em 2em 2em;
+      }
+
+      .ui.footer.segment {
+        margin: 5em 0em 0em;
+        padding: 5em 0em;
+      }
+
+
+    </style>
+    <script type="text/javascript">
+    $(document)
+      .ready(function() {
+        // fix main menu to page on passing
+        $('.main.menu').visibility({
+          type: 'fixed'
+        });
+        $('.overlay').visibility({
+          type: 'fixed',
+          offset: 80
+        });
+
+        // lazy load images
+        $('.image').visibility({
+          type: 'image',
+          transition: 'vertical flip in',
+          duration: 500
+        });
+
+        // show dropdown on hover
+        $('.main.menu  .ui.dropdown').dropdown({
+          on: 'hover'
+        });
+        $('.ui.rating#demo')
+          .rating('disabled')
+        ;
+        $('.ui.rating#thisStudent')
+          .rating()
+        ;
+
+
+      })
+    ;
+    </script>
+  </head>
+  <body ng-controller="ScoreCtrl">
+    
+    <!-- Sidebar Menu -->
+    <div class="ui main text container">
+    <h1 class="ui header">創九報名 批改系統 - 個人批改</h1>
+    <p>批改說明:<br>
+    本屆批改以每位老師看完個人所有資料後，給予一整體性評分<br>
+    <div id="demo" class="ui mini star rating" data-rating="1" data-max-rating="3" disabled></div>表示給予此學生 1分(最低分，其意為:'建議不予錄取')<br>
+    <div id="demo" class="ui mini star rating" data-rating="2" data-max-rating="3" disabled></div>表示給予此學生 2分(中等，其意為:'普通')<br>
+    <div id="demo" class="ui mini star rating" data-rating="3" data-max-rating="3" disabled></div>表示給予此學生 3分(最高分，其意為:'建議錄取')
+    </p>
+    </div>
+    
+
+  <div class="ui borderless main menu">
+    <div class="ui text container">
+      <div href="#" class="header item">
+        <img class="logo" src="/image/cep_only_logo-01.png">
+      </div>
+      <a class="item" href="/">回列表頁</a>
+      <% if (user) { %>
+      <a class="item" href="/dashboard">成績總覽</a>
+      <% } %>
+        
+        <!-- <a class="ui inverted button">Sign Up</a> -->
+      </div>
+      
+  </div>
+  
+  
+  <div class="ui internally celled grid">
+    <div class="row">
+      <div class="five wide column">
+        <div class="overlay">
+          <div class="ui labeled vertical cards">
+            <div class="card">
+              <div class="content">
+
+                <div class="right floated" ng-show="user.is_team">團體報名 <i class="right floated orange large users icon"></i><div class="text red">{{user.team_name}}</div><div class="red" ng-show="user.am_i_leader == 1">(隊長)</div><div class="red" ng-show="user.am_i_leader != 1">(成員)</div></div>
+                <div class="description right floated" ng-show="!user.is_team">個人報名 <i class="right floated large user icon"></i></div>
+                
+                <div class="header">{{user.name}}</div>
+                <div class="description">性別:{{user.gender}}</div>
+                <div class="description">{{user.school}}</div>
+                <div class="description">學號:{{user.student_id}}</div>
+                <div class="description">{{user.college}} - {{user.department}}</div>
+                <div class="description">年級:{{user.grade}}</div>
+                <div class="description">高中以來申請校內外獎助學金: {{user.scholarships}}
+                <% if (user.scholarships=="是") { %>
+                  
+                    - {{user.scholarships_other}}
+                  
+                <% } %>
+                </div>
+                <div class="description">高中以來申請清寒補助: {{user.poor_allowance}}
+                <% if (user.poor_allowance=="是") { %>
+                  
+                    - {{user.poor_allowance_other}}
+                  
+                <% } %>
+                </div>
+                <div class="description">未來一年出國交換計畫: {{user.exchange_student}}
+                <% if (user.exchange_student=="是") { %>
+                  
+                    - {{user.exchange_student_other}}
+                  
+                <% } %>
+                </div>
+
+                <div class="description">Email:<a href="mailto:{{user.email}}">{{user.email}}</a></div>
+                <div class="description">Phone:<a href="tel:{{user.phone_number}}">{{user.phone_number}}</a></div>
+                <div class="description">Facebook:<a href="{{user.facebook_link}}" target="_blank">前往查看</a></div>
+                
+                <div class="description">上次評分: {{user.score.mentor4_score}}</div>
+                
+              </div>
+              <div class="extra content">
+              <!-- <input type="number" class="form-control" ng-model="user.score.all_score" placeholder="請輸入數字"> -->
+                整體評分:<div id="thisStudent" class="ui massive star rating" data-rating="{{user.score.mentor4_score}}" data-max-rating="3"></div>
+                <button class="ui right floated inverted green button" ng-click="LFsubmitScore()">送出</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="eleven wide column">
+        <!-- 1 -->
+        <div class="ui raised teal segment">
+          <p>1.主要社團經歷與擔任角色</p>
+          <div class="ui segments">
+            <div class="ui secondary segment">
+              <p>社團名稱</p>
+            </div>
+              <div class="ui segments">
+                <div class="ui segment">
+                  {{user.club_name}}
+                  
+                </div>
+                
+              </div>
+            <div class="ui secondary segment">
+              <p>擔任角色</p>
+            </div>
+              <div class="ui segments">
+                <div class="ui segment">
+                  {{user.club_role}}
+                </div>
+                
+              </div>
+            <div class="ui secondary segment">
+              <p>主要事蹟(50字)</p>
+            </div>
+              <div class="ui segments">
+                <div class="ui segment">
+                  {{user.club_story}}
+                </div>
+                
+              </div>
+            
+          </div>
+        </div>
+        <!-- 2 -->
+        <!-- <div class="ui raised teal segment">
+          <p>2.請問高中以來是否申請校內外獎助學金?</p>
+          <div class="ui segments">
+            <div class="ui segment">
+              <p>{{user.scholarships}}</p>
+              
+            </div>
+            <% if (user.poor_allowance=="是") { %>
+              <div class="ui segment">
+                
+                <p>{{user.scholarships_other}}</p>
+              </div>
+            <% } %>
+          </div>
+        </div> -->
+        <!-- 3 -->
+        <!-- <div class="ui raised teal segment">
+          <p>3.請問高中以來是否申請清寒補助?</p>
+          <div class="ui segments">
+            <div class="ui segment">
+              <p>{{user.poor_allowance}}</p>
+              
+            </div>
+            <% if (user.poor_allowance=="是") { %>
+              <div class="ui segment">
+                
+                <p>{{user.poor_allowance_other}}</p>
+              </div>
+            <% } %>
+          </div>
+        </div> -->
+        <!-- 4 -->
+        <!-- <div class="ui raised teal segment">
+          <p>4.未來一年是否會有出國交換的計畫?</p>
+          <div class="ui segments">
+            <div class="ui segment">
+              <p>{{user.exchange_student}}</p>
+              
+            </div>
+            <% if (user.poor_allowance=="是") { %>
+              <div class="ui segment">
+                
+                <p>{{user.exchange_student_other}}</p>
+              </div>
+            <% } %>
+          </div>
+        </div> -->
+        <!-- 5 -->
+        <div class="ui raised red segment">
+          <p>2.進階提問</p>
+          <div class="ui segments">
+            <div class="ui secondary segment">
+              <p>A.是否曾修習過以下(創創或D-School) 課程？(複選)</p>
+            </div>
+              <div class="ui segments">
+                <div class="ui segment">
+                  
+                    <p ng-show="user.course_takes_service_design != 0">{{user.course_takes_service_design}}</p>
+                    <p ng-show="user.course_takes_art_create != 0">{{user.course_takes_art_create}}</p>
+                    <p ng-show="user.course_takes_art_design_sale != 0">{{user.course_takes_art_design_sale}}</p>
+                    <p ng-show="user.course_takes_novel_design != 0">{{user.course_takes_novel_design}}</p>
+                    <p ng-show="user.course_takes_visual_design != 0">{{user.course_takes_visual_design}}</p>
+                    <p ng-show="user.course_takes_novel_bm_design != 0">{{user.course_takes_novel_bm_design}}</p>
+                    <p ng-show="user.course_takes_art_create != 0">{{user.course_takes_art_create}}</p>
+                    <p ng-show="user.course_takes_ux != 0">{{user.course_takes_ux}}</p>
+                    <p ng-show="user.course_takes_global_youth != 0">{{user.course_takes_global_youth}}</p>
+                    <p ng-show="user.course_takes_med != 0">{{user.course_takes_med}}</p>
+                    <p ng-show="user.course_takes_dt != 0">{{user.course_takes_dt}}</p>
+                    <p ng-show="user.course_takes_global_theory_do != 0">{{user.course_takes_global_theory_do}}</p>
+                    <p ng-show="user.course_takes_oldman != 0">{{user.course_takes_oldman}}</p>
+                    <p ng-show="user.course_takes_novel_cars != 0">{{user.course_takes_novel_cars}}</p>
+                    <p ng-show="user.course_takes_warm_tech != 0">{{user.course_takes_warm_tech}}</p>
+                    
+                    <p ng-show="user.course_takes_none == '無'">{{user.course_takes_none}}</p>
+                  
+                </div>  
+              </div>
+          </div>
+          <div class="ui segments">
+            <div class="ui secondary segment">
+              <p>B.請就上述課程中，最令您感到有興趣的一門課，說明您的學習心得。
+若未修過上述課程，請針對您修過最有興趣的一門課，說明您的學習心得</p>
+            </div>
+              <div class="ui segments">
+                <div class="ui segment">
+                  <p>{{user.course_takes_reviews}}</p>
+                  
+                </div>  
+              </div>
+          </div>
+          <div class="ui segments">
+            <div class="ui secondary segment">
+              <p>C.請問是否曾參與過下列創業相關活動？</p>
+            </div>
+              <div class="ui segments">
+                <div class="ui segment">
+
+                  <p ng-show="user.startup_activities_cep_forum != 0">{{user.startup_activities_cep_forum}}</p>
+                  
+                  <p ng-show="user.startup_activities_dt_workshop != 0">{{user.startup_activities_dt_workshop}}</p>
+                  
+                  <p ng-show="user.startup_activities_social_project != 0">{{user.startup_activities_social_project}}</p>
+                  
+                  <p ng-show="user.startup_activities_intro_seminar != 0">{{user.startup_activities_intro_seminar}}</p>
+                  
+                  <p ng-show="user.startup_activities_HackNTU != 0">{{user.startup_activities_HackNTU}}</p>
+                  
+                  <p ng-show="user.startup_activities_NTU_Startup_Day != 0">{{user.startup_activities_NTU_Startup_Day}}</p>
+                  
+                  <p ng-show="user.startup_activities_startup_matchmaking != 0">{{user.startup_activities_startup_matchmaking}}</p>
+
+                  
+                  <p ng-show="user.startup_activities_none =='無'">{{user.startup_activities_none}}</p>
+                  
+                </div>  
+              </div>
+          </div>
+          <div class="ui segments">
+            <div class="ui secondary segment">
+              <p>D.若有，請針對其中印象最深刻的活動，說明參與心得：
+若沒有，請以您參與過任何與創新創業相關的活動為例，說明參與心得：</p>
+            </div>
+              <div class="ui segments">
+                <div class="ui segment">
+                  <p>{{user.startup_activities_reviews}}</p>
+                  
+                </div>  
+              </div>
+          </div>
+          <div class="ui segments">
+            <div class="ui secondary segment">
+              <p>E.創業需從待解決的問題出發，請問您最想解決或關注最多的是哪個問題? 為何這個問題值得解決？有初步的想法嗎？請用文字說明。</p>
+            </div>
+              <div class="ui segments">
+                <div class="ui segment">
+                  <p>{{user.startup_problems}}</p>
+                  
+                </div>  
+              </div>
+          </div>
+          
+          <div class="ui segments">
+            <div class="ui secondary segment">
+              <p>F.上一題，補充說明，附檔連結區:</p>
+            </div>
+              <div class="ui segments">
+                <div class="ui segment">
+                <% if (user.startup_problems_link!=null) { %>
+                  <p><a href="{{user.startup_problems_link}}" target="_blank">{{user.startup_problems_link}}</a></p>
+                <% }else{ %>  
+                  <p><i class="attention red icon"></i>此位學生沒有提供額外連結</p>
+                <% } %> 
+                </div>  
+              </div>
+          </div>
+          
+          <div class="ui segments">
+            <div class="ui secondary segment">
+              <p>G.有人主張大學生不應畢業後立即創業，應進入產業培養技能後再創業，但也有人主張年輕時嘗試創業，可以快速成長，而失敗成本也不高。您對這個問題的看法為何（並說明為什麼）？根據您的看法，未來一到兩年，您會如何規劃您的生涯學習與發展？</p>
+            </div>
+              <div class="ui segments">
+                <div class="ui segment">
+                  <p>{{user.startup_time}}</p>
+                  
+                </div>  
+              </div>
+          </div>
+          <div class="ui segments">
+            <div class="ui secondary segment">
+              <p>H.附件上傳：
+若有任何其他有助於學程取才決策的輔助資料，歡迎以夾帶檔案的方式提供。</p>
+            </div>
+              <div class="ui segments">
+                <div class="ui segment">
+                  <% if (user.startup_time_link!=null) { %>
+                  <p><a href="{{user.startup_time_link}}" target="_blank">{{user.startup_time_link}}</a></p>
+                  <% }else{ %>  
+                    <p><i class="attention red icon"></i>此位學生沒有提供額外連結</p>
+                  <% } %> 
+                </div>  
+              </div>
+          </div>
+        </div>
+        <!-- 6 -->
+        <div class="ui raised red segment">
+          <p>3.請留下至少一位曾經教導你的老師、實習時的上司、工作時的老闆等聯絡方式</p>
+          <div class="ui segments">
+            <div class="ui secondary segment">
+              <p>第一位</p>
+            </div>
+              <div class="ui segments">
+                <div class="ui segment">
+                  <p>姓名: {{user.contact1_name}}</p>
+                  <p>職業: {{user.contact1_job}}</p>
+                  <p>關係: {{user.contact1_relationship}}</p>
+                  <p>手機: {{user.contact1_phone}}</p>
+                </div>
+                
+              </div>
+            <% if (user.contact2_name==null && user.contact3_name==null) { %>
+              <div class="ui secondary segment">
+                <p><i class="attention red icon"></i>此位學生僅提供一位聯絡人</p>
+              </div>
+            <% } %>
+            <% if (user.contact2_name!=null) { %>
+            <div class="ui secondary segment">
+              <p>第二位</p>
+            </div>
+              <div class="ui segments">
+                <div class="ui segment">
+                  <p>姓名: {{user.contact2_name}}</p>
+                  <p>職業: {{user.contact2_job}}</p>
+                  <p>關係: {{user.contact2_relationship}}</p>
+                  <p>手機: {{user.contact2_phone}}</p>
+                </div>
+                
+              </div>
+            <% } %>
+            <% if (user.contact3_name!=null) { %>
+            <div class="ui secondary segment">
+              <p>第三位</p>
+            </div>
+              <div class="ui segments">
+                <div class="ui segment">
+                  <p>姓名: {{user.contact3_name}}</p>
+                  <p>職業: {{user.contact3_job}}</p>
+                  <p>關係: {{user.contact3_relationship}}</p>
+                  <p>手機: {{user.contact3_phone}}</p>
+                </div>
+                
+              </div>
+            <% } %>
+          </div>
+        </div>
+        <!--  7 -->
+        <div class="ui raised orange segment" ng-show="user.is_team">
+          <p>4.團體資料與提問</p>
+          <div class="ui segments">
+            <div class="ui secondary segment">
+              <p>請說明你們團隊的組成與角色，以及想解決的問題、解決方案、或商業模式為何?</p>
+            </div>
+              <div class="ui segments">
+                <div class="ui segment" ng-show="user.team_formation_bm!=0">
+                  {{user.team_formation_bm}}
+                  
+                </div>
+                <div class="ui segment" ng-show="user.team_formation_bm==0">
+                  <p><i class="attention red icon"></i>此位學生沒有提供此問題回答</p>
+                  
+                </div>
+              </div>
+            <div class="ui secondary segment">
+              <p>若有機會進入創創學程，你們期待學程能提供哪些發展資源與協助?</p>
+            </div>
+              <div class="ui segments">
+               
+                <div class="ui segment" ng-show="user.team_resource!=0">
+                  {{user.team_resource}}
+                  
+                </div>
+                <div class="ui segment" ng-show="user.team_resource==0">
+                  <p><i class="attention red icon"></i>此位學生沒有提供此問題回答</p>
+                  
+                </div>
+              
+                
+                
+              </div>
+            <div class="ui secondary segment">
+              <p>附件上傳：
+若有任何其他有助於學程取才決策的輔助資料，歡迎以夾帶檔案的方式提供。(如 Prototype 介紹)</p>
+            </div>
+              <div class="ui segments">
+                <div class="ui segment" ng-show="user.team_link!=0">
+                  {{user.team_link}}
+                  
+                </div>
+                <div class="ui segment" ng-show="user.team_link==0">
+                  <p><i class="attention red icon"></i>此位學生沒有提供此題連結</p>
+                  
+                </div>
+                
+                
+              </div>
+            
+          </div>
+        </div>
+      </div>
+      
+    </div>
+    
+  </div>
+  
+  </body>
+</html>
