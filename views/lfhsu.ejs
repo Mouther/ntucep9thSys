@@ -511,7 +511,9 @@
             </div>
               <div class="ui segments">
                 <div class="ui segment" ng-show="user.team_link!=0">
-                  {{user.team_link}}
+                  <a href="{{user.team_link}}" target="_blank">
+                    {{user.team_link}}
+                  </a>
                   
                 </div>
                 <div class="ui segment" ng-show="user.team_link==0">
