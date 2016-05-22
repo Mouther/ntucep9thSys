@@ -374,11 +374,15 @@
             </div>
               <div class="ui segments">
                 <div class="ui segment">
-                <% if (user.startup_problems_link!=null) { %>
-                  <p><a href="{{user.startup_problems_link}}" target="_blank">{{user.startup_problems_link}}</a></p>
-                <% }else{ %>  
-                  <p><i class="attention red icon"></i>此位學生沒有提供額外連結</p>
-                <% } %> 
+                  <div ng-show="user.startup_problems_link!=0">
+                    <a href="{{user.startup_problems_link}}" target="_blank">
+                    {{user.startup_problems_link}}
+                    </a>
+                  </div>
+                  <div ng-show="user.startup_problems_link==0">
+                    <i class="attention red icon"></i>此位學生沒有提供額外連結
+                  </div>
+                
                 </div>  
               </div>
           </div>
@@ -401,11 +405,15 @@
             </div>
               <div class="ui segments">
                 <div class="ui segment">
-                  <% if (user.startup_time_link!=null) { %>
-                  <p><a href="{{user.startup_time_link}}" target="_blank">{{user.startup_time_link}}</a></p>
-                  <% }else{ %>  
-                    <p><i class="attention red icon"></i>此位學生沒有提供額外連結</p>
-                  <% } %> 
+                  <div ng-show="user.startup_time_link!=0">
+                    <a href="{{user.startup_time_link}}" target="_blank">
+                    {{user.startup_time_link}}
+                    </a>
+                  </div>
+                  <div ng-show="user.startup_time_link==0">
+                    <i class="attention red icon"></i>此位學生沒有提供額外連結
+                  </div>
+                  
                 </div>  
               </div>
           </div>
@@ -426,26 +434,28 @@
                 </div>
                 
               </div>
-            <% if (user.contact2_name==null && user.contact3_name==null) { %>
-              <div class="ui secondary segment">
-                <p><i class="attention red icon"></i>此位學生僅提供一位聯絡人</p>
-              </div>
-            <% } %>
-            <% if (user.contact2_name!=null) { %>
-            <div class="ui secondary segment">
-              <p>第二位</p>
-            </div>
-              <div class="ui segments">
-                <div class="ui segment">
-                  <p>姓名: {{user.contact2_name}}</p>
-                  <p>職業: {{user.contact2_job}}</p>
-                  <p>關係: {{user.contact2_relationship}}</p>
-                  <p>手機: {{user.contact2_phone}}</p>
+            <div ng-show="user.contact2_name==0">
+              <div ng-show="user.contact3_name==0">           
+                <div class="ui secondary segment">
+                  <p><i class="attention red icon"></i>此位學生僅提供一位聯絡人</p>
                 </div>
-                
               </div>
-            <% } %>
-            <% if (user.contact3_name!=null) { %>
+            </div>
+            <div ng-show="user.contact2_name!=0">
+              <div class="ui secondary segment">
+                <p>第二位</p>
+              </div>
+                <div class="ui segments">
+                  <div class="ui segment">
+                    <p>姓名: {{user.contact2_name}}</p>
+                    <p>職業: {{user.contact2_job}}</p>
+                    <p>關係: {{user.contact2_relationship}}</p>
+                    <p>手機: {{user.contact2_phone}}</p>
+                  </div>
+                  
+                </div>
+            </div>
+            <div ng-show="user.contact3_name!=0">
             <div class="ui secondary segment">
               <p>第三位</p>
             </div>
@@ -458,7 +468,7 @@
                 </div>
                 
               </div>
-            <% } %>
+            </div>
           </div>
         </div>
         <!--  7 -->

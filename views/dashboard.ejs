@@ -113,9 +113,23 @@
         <% if (user) { %>
         <a class="item" href="/dashboard">成績總覽</a>
         <% } %>
+        <div class="right menu">
+          <% if (user) { %>    
+            <div class="item">
+              <div>正以<%= user.username %>身份登入</div>
+            </div>
+            <div class="item">
+              <a class="ui button" href="logout">登出</a>
+            </div>
+          <% } else { %>
+            <div class="item">
+              <a class="ui button">登入</a>
+            </div>
+          <% } %>
           
-          <!-- <a class="ui inverted button">Sign Up</a> -->
         </div>
+          <!-- <a class="ui inverted button">Sign Up</a> -->
+      </div>
         
     </div>
     
@@ -169,7 +183,7 @@
           </div>
         </div>
       </div>
-      <!-- <div class="ui divider"></div>
+      <div class="ui divider"></div>
       <div class="ui internally celled grid container">
         <div class="row">
           <div class="nine wide column">
@@ -203,7 +217,7 @@
                 
           </div>
         </div>
-      </div> -->
+      </div>
       <div class="ui divider"></div>
       <div class="ui internally celled grid container">
         <div class="row">

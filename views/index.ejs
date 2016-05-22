@@ -22,7 +22,7 @@
       }
 
       .masthead.segment {
-        min-height: 700px;
+        min-height: 600px;
         padding: 1em 0em;
       }
       .masthead .logo.item img {
@@ -218,12 +218,17 @@
         </div>
 
         <div class="ui text container">
-          <h1 class="ui inverted header" style="margin-top:2em;">
+          <h1 class="ui inverted header" style="margin-top:0.5em;">
             <%= title %>
           </h1>
           <h2>Hello, <%= user.name %>!</h2>
-          <p> 歡迎來到 <%= title %></p>
-          <p>以下說明很重要，請仔細閱讀，</p>
+          <p> 歡迎來到 <%= title %></br>
+          以下說明很重要，請仔細閱讀，</p>
+          <p style="color: #ff0;">本屆批改以每位老師看完個人所有資料後，給予一整體性評分<br>
+          <div id="demo" class="ui mini star rating" data-rating="1" data-max-rating="3" disabled ></div> 表示給予此學生 1分(最低分，其意為:'建議不予錄取')<br>
+          <div id="demo" class="ui mini star rating" data-rating="2" data-max-rating="3" disabled ></div> 表示給予此學生 2分(中等，其意為:'普通')<br>
+          <div id="demo" class="ui mini star rating" data-rating="3" data-max-rating="3" disabled></div> 表示給予此學生 3分(最高分，其意為:'建議錄取')
+          </p>
           <p>若有問題請透過我的信箱聯絡:evin92@gmail.com <a href="mailto:evin92@gmail.com">[快速寄信]</a></p>
           <p>緊急時刻請打 0987-838-646 林哲緯</p>
           <!-- <div class="ui huge primary button">Get Started <i class="right arrow icon"></i></div> -->
@@ -275,6 +280,7 @@
                     <label>年級別:
                       <select class="ui search dropdown" ng-model="grade_filter">
                         <option value="">無分類:</option>
+                        <option value="大學">大學</option>
                         <option value="碩">碩士</option>
                         <option value="博">博士</option>
                       </select>
@@ -298,6 +304,7 @@
                       <tr>
                         <th style="width:3%;">序號</th>
                         <th style="width:3%;">團體</th>
+                        <th style="width:6%;">團體成員</th>
                         <th style="width:6%;">姓名</th>
                         <th style="width:5%;">學號</th>
                         <th style="width:10%;">大學</th>
@@ -309,9 +316,24 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <tr ng-repeat="user in filteredUsers = (users | filter: {'id': id_filter, 'name': name_filter, 'school': school_filter, 'grade': grade_filter, 'score': score_filter, 'is_team':team_filter})| orderBy:'id' " ng-show="user_id == '1'">
+                      <tr ng-repeat="user in filteredUsers = (users | filter: {'student_id': id_filter, 'name': name_filter, 'school': school_filter, 'grade': grade_filter, 'score': score_filter, 'is_team':team_filter})| orderBy:'id' " ng-show="user_id == '1'">
                         <td>{{$index+1}}</td>
-                        <td><div ng-show="{{user.is_team}}"><i class="users large orange icon"></i></div></td>
+                        <td><div ng-show="{{user.is_team}}"><i class="users large orange icon"></i>
+                            
+                          </div>
+                        </td>
+                        <td><div ng-show="{{user.is_team}}">
+                            <div ng-show="user.leader_name!=0">
+                              隊長:{{user.leader_name}},
+                            </div>
+                            <div ng-show="user.member1_name!=0">
+                              成員1:{{user.member1_name}},
+                            </div>
+                            <div ng-show="user.member2_name!=0">
+                              成員2:{{user.member2_name}}
+                            </div>
+                          </div>
+                        </td>
                         <td><a href="{{user.facebook_link}}" target="_blank">{{user.name}}</a></td>
                         <td>{{user.student_id}}</td>
                         <td>{{user.school}}</td>
@@ -336,9 +358,24 @@
                           </a>
                         </td>
                       </tr>
-                      <tr ng-repeat="user in filteredUsers = (users | filter: {'id': id_filter, 'name': name_filter, 'school': school_filter, 'grade': grade_filter, 'score': score_filter, 'is_team':team_filter})| orderBy:'id' " ng-show="user_id == '2'">
+                      <tr ng-repeat="user in filteredUsers = (users | filter: {'student_id': id_filter, 'name': name_filter, 'school': school_filter, 'grade': grade_filter, 'score': score_filter, 'is_team':team_filter})| orderBy:'id' " ng-show="user_id == '2'">
                         <td>{{$index+1}}</td>
-                        <td><div ng-show="{{user.is_team}}"><i class="users large orange icon"></i></div></td>
+                        <td><div ng-show="{{user.is_team}}"><i class="users large orange icon"></i>
+                            
+                          </div>
+                        </td>
+                        <td><div ng-show="{{user.is_team}}">
+                            <div ng-show="user.leader_name!=0">
+                              隊長:{{user.leader_name}},
+                            </div>
+                            <div ng-show="user.member1_name!=0">
+                              成員1:{{user.member1_name}},
+                            </div>
+                            <div ng-show="user.member2_name!=0">
+                              成員2:{{user.member2_name}}
+                            </div>
+                          </div>
+                        </td>
                         <td><a href="{{user.facebook_link}}" target="_blank">{{user.name}}</a></td>
                         <td>{{user.student_id}}</td>
                         <td>{{user.school}}</td>
@@ -363,9 +400,24 @@
                           </a>
                         </td>
                       </tr> 
-                      <tr ng-repeat="user in filteredUsers = (users | filter: {'id': id_filter, 'name': name_filter, 'school': school_filter, 'grade': grade_filter, 'score': score_filter, 'is_team':team_filter})| orderBy:'id' " ng-show="user_id == '3'">
+                      <tr ng-repeat="user in filteredUsers = (users | filter: {'student_id': id_filter, 'name': name_filter, 'school': school_filter, 'grade': grade_filter, 'score': score_filter, 'is_team':team_filter})| orderBy:'id' " ng-show="user_id == '3'">
                         <td>{{$index+1}}</td>
-                        <td><div ng-show="{{user.is_team}}"><i class="users large orange icon"></i></div></td>
+                        <td><div ng-show="{{user.is_team}}"><i class="users large orange icon"></i>
+                            
+                          </div>
+                        </td>
+                        <td><div ng-show="{{user.is_team}}">
+                            <div ng-show="user.leader_name!=0">
+                              隊長:{{user.leader_name}},
+                            </div>
+                            <div ng-show="user.member1_name!=0">
+                              成員1:{{user.member1_name}},
+                            </div>
+                            <div ng-show="user.member2_name!=0">
+                              成員2:{{user.member2_name}}
+                            </div>
+                          </div>
+                        </td>
                         <td><a href="{{user.facebook_link}}" target="_blank">{{user.name}}</a></td>
                         <td>{{user.student_id}}</td>
                         <td>{{user.school}}</td>
@@ -390,9 +442,24 @@
                           </a>
                         </td>
                       </tr>
-                      <tr ng-repeat="user in filteredUsers = (users | filter: {'id': id_filter, 'name': name_filter, 'school': school_filter, 'grade': grade_filter, 'score': score_filter, 'is_team':team_filter})| orderBy:'id' " ng-show="user_id == '4'">
+                      <tr ng-repeat="user in filteredUsers = (users | filter: {'student_id': id_filter, 'name': name_filter, 'school': school_filter, 'grade': grade_filter, 'score': score_filter, 'is_team':team_filter})| orderBy:'id' " ng-show="user_id == '4'">
                         <td>{{$index+1}}</td>
-                        <td><div ng-show="{{user.is_team}}"><i class="users large orange icon"></i></div></td>
+                        <td><div ng-show="{{user.is_team}}"><i class="users large orange icon"></i>
+                            
+                          </div>
+                        </td>
+                        <td><div ng-show="{{user.is_team}}">
+                            <div ng-show="user.leader_name!=0">
+                              隊長:{{user.leader_name}},
+                            </div>
+                            <div ng-show="user.member1_name!=0">
+                              成員1:{{user.member1_name}},
+                            </div>
+                            <div ng-show="user.member2_name!=0">
+                              成員2:{{user.member2_name}}
+                            </div>
+                          </div>
+                        </td>
                         <td><a href="{{user.facebook_link}}" target="_blank">{{user.name}}</a></td>
                         <td>{{user.student_id}}</td>
                         <td>{{user.school}}</td>

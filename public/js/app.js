@@ -123,7 +123,10 @@ angular.module('app', ['ngSanitize', 'chart.js'])
       obj.is_team = user.is_team;
       obj.name = user.name;
       obj.student_id = user.student_id;
-      obj.school = user.school;
+      if (user.hasOwnProperty('school')) {
+        obj.school = user.school
+      };
+      // obj.school = user.school;
       obj.college = user.college;
       obj.department = user.department;
       obj.facebook_link = user.facebook_link;
@@ -159,10 +162,10 @@ angular.module('app', ['ngSanitize', 'chart.js'])
     // console.log($scope.users);
 
     // peichart default data
-    $scope.labels = ["Download Sales", "In-Store Sales", "Mail-Order Sales"];
-    $scope.data = [300, 500, 100, 200, 300, 400, 500, 400, 500];
+    // $scope.labels = ["Download Sales", "In-Store Sales", "Mail-Order Sales"];
+    // $scope.data = [300, 500, 100, 200, 300, 400, 500, 400, 500];
 
-    $scope.chart_member = 80;
+    $scope.chart_member = 100;
 
     $scope.updateChart = function() { 
       // default get first 80 students
@@ -178,9 +181,10 @@ angular.module('app', ['ngSanitize', 'chart.js'])
 
       $scope.final_data = [];
       for (i = 0; i < temp[0].length; i++) {
-        var obj = {};
-        obj.label = temp[0][i];
-        obj.data = temp[1][i];
+        var obj = {
+          label:temp[0][i],
+          data: temp[1][i]
+        };
         $scope.final_data.push(obj);
       }
       $scope.sorted_final_data = $scope.final_data.sort(compare2);
@@ -191,33 +195,41 @@ angular.module('app', ['ngSanitize', 'chart.js'])
         $scope.data.push($scope.sorted_final_data[i].data);
       }
 
-      $scope.final_data_gender = [];
-      for (i = 0; i < temp_gender[0].length; i++) {
-        var obj = {};
-        obj.label = temp_gender[0][i];
-        obj.data = temp_gender[1][i];
-        $scope.final_data_gender.push(obj);
-      }
-      $scope.labels_gender = [];
-      $scope.data_gender = [];
-      for (i = 0; i < $scope.sorted_final_data.length; i++) {
-        $scope.labels_gender.push($scope.final_data_gender[i].label);
-        $scope.data_gender.push($scope.final_data_gender[i].data);
-      }
-
       $scope.final_data_school = [];
       for (i = 0; i < temp_school[0].length; i++) {
-        var obj = {};
-        obj.label = temp_school[0][i];
-        obj.data = temp_school[1][i];
+        var obj = {
+          label:temp_school[0][i],
+          data: temp_school[1][i]
+        };
         $scope.final_data_school.push(obj);
       }
       $scope.labels_school = [];
       $scope.data_school = [];
       for (i = 0; i < $scope.sorted_final_data.length; i++) {
-        $scope.labels_school.push($scope.final_data_school[i].label);
-        $scope.data_school.push($scope.final_data_school[i].data);
+        if($scope.final_data_school[i] && $scope.final_data_school[i].hasOwnProperty("label") && $scope.final_data_school[i].hasOwnProperty("data")){
+          $scope.labels_school.push($scope.final_data_school[i].label);
+          $scope.data_school.push($scope.final_data_school[i].data);
+        }
       }
+
+      $scope.final_data_gender = [];
+      for (i = 0; i < temp_gender[0].length; i++) {
+        var obj = {
+          label:temp_gender[0][i],
+          data: temp_gender[1][i]
+        };
+        $scope.final_data_gender.push(obj);
+      }
+      $scope.labels_gender = [];
+      $scope.data_gender = [];
+      for (i = 0; i < $scope.sorted_final_data.length; i++) {
+        if($scope.final_data_gender[i] && $scope.final_data_gender[i].hasOwnProperty("label") && $scope.final_data_gender[i].hasOwnProperty("data")){
+          $scope.labels_gender.push($scope.final_data_gender[i].label);
+          $scope.data_gender.push($scope.final_data_gender[i].data);
+        }
+      }
+
+      
 
     };
     // default get first 80 students
@@ -234,9 +246,10 @@ angular.module('app', ['ngSanitize', 'chart.js'])
 
     $scope.final_data = [];
     for (i = 0; i < temp[0].length; i++) {
-      var obj = {};
-      obj.label = temp[0][i];
-      obj.data = temp[1][i];
+       var obj = {
+        label:temp[0][i],
+        data: temp[1][i]
+      };
       $scope.final_data.push(obj);
     }
     $scope.sorted_final_data = $scope.final_data.sort(compare2);
@@ -247,33 +260,43 @@ angular.module('app', ['ngSanitize', 'chart.js'])
       $scope.data.push($scope.sorted_final_data[i].data);
     }
 
+    $scope.final_data_school = [];
+    for (i = 0; i < temp_school[0].length; i++) {
+      var obj = {
+        label:temp_school[0][i],
+        data: temp_school[1][i]
+      };
+      
+      $scope.final_data_school.push(obj);
+    }
+
+    $scope.labels_school = [];
+    $scope.data_school = [];
+    for (i = 0; i < $scope.sorted_final_data.length; i++) {
+      if($scope.final_data_school[i] && $scope.final_data_school[i].hasOwnProperty("label") && $scope.final_data_school[i].hasOwnProperty("data")){
+        $scope.labels_school.push($scope.final_data_school[i].label);
+        $scope.data_school.push($scope.final_data_school[i].data);
+      }
+    }
+
     $scope.final_data_gender = [];
     for (i = 0; i < temp_gender[0].length; i++) {
-      var obj = {};
-      obj.label = temp_gender[0][i];
-      obj.data = temp_gender[1][i];
+       var obj = {
+        label:temp_gender[0][i],
+        data: temp_gender[1][i]
+      };
       $scope.final_data_gender.push(obj);
     }
     $scope.labels_gender = [];
     $scope.data_gender = [];
     for (i = 0; i < $scope.sorted_final_data.length; i++) {
-      $scope.labels_gender.push($scope.final_data_gender[i].label);
-      $scope.data_gender.push($scope.final_data_gender[i].data);
+      if($scope.final_data_gender[i] && $scope.final_data_gender[i].hasOwnProperty("label") && $scope.final_data_gender[i].hasOwnProperty("data")){
+        $scope.labels_gender.push($scope.final_data_gender[i].label);
+        $scope.data_gender.push($scope.final_data_gender[i].data);
+      }
     }
-
-    $scope.final_data_school = [];
-    for (i = 0; i < temp_school[0].length; i++) {
-      var obj = {};
-      obj.label = temp_school[0][i];
-      obj.data = temp_school[1][i];
-      $scope.final_data_school.push(obj);
-    }
-    $scope.labels_school = [];
-    $scope.data_school = [];
-    for (i = 0; i < $scope.sorted_final_data.length; i++) {
-      $scope.labels_school.push($scope.final_data_school[i].label);
-      $scope.data_school.push($scope.final_data_school[i].data);
-    }
+    
+    // console.log($scope.data_school);
   })
   .error(function(data, status, header, config) {
     console.log(data);
