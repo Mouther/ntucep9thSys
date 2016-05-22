@@ -323,7 +323,7 @@
                       <tr ng-repeat="user in filteredUsers = (users | filter: {'student_id': id_filter, 'name': name_filter, 'school': school_filter, 'grade': grade_filter, 'score': score_filter, 'is_team':team_filter})| orderBy:'id' " ng-show="user_id == '1'">
                         <td>{{$index+1}}</td>
                         <td><div ng-show="{{user.is_team}}"><i class="users large orange icon"></i>
-                            
+                            {{user.team_name}}
                           </div>
                         </td>
                         <td><div ng-show="{{user.is_team}}">
@@ -365,7 +365,7 @@
                       <tr ng-repeat="user in filteredUsers = (users | filter: {'student_id': id_filter, 'name': name_filter, 'school': school_filter, 'grade': grade_filter, 'score': score_filter, 'is_team':team_filter})| orderBy:'id' " ng-show="user_id == '2'">
                         <td>{{$index+1}}</td>
                         <td><div ng-show="{{user.is_team}}"><i class="users large orange icon"></i>
-                            
+                            {{user.team_name}}
                           </div>
                         </td>
                         <td><div ng-show="{{user.is_team}}">
@@ -407,7 +407,7 @@
                       <tr ng-repeat="user in filteredUsers = (users | filter: {'student_id': id_filter, 'name': name_filter, 'school': school_filter, 'grade': grade_filter, 'score': score_filter, 'is_team':team_filter})| orderBy:'id' " ng-show="user_id == '3'">
                         <td>{{$index+1}}</td>
                         <td><div ng-show="{{user.is_team}}"><i class="users large orange icon"></i>
-                            
+                            {{user.team_name}}
                           </div>
                         </td>
                         <td><div ng-show="{{user.is_team}}">
@@ -449,7 +449,7 @@
                       <tr ng-repeat="user in filteredUsers = (users | filter: {'student_id': id_filter, 'name': name_filter, 'school': school_filter, 'grade': grade_filter, 'score': score_filter, 'is_team':team_filter})| orderBy:'id' " ng-show="user_id == '4'">
                         <td>{{$index+1}}</td>
                         <td><div ng-show="{{user.is_team}}"><i class="users large orange icon"></i>
-                            
+                            {{user.team_name}}
                           </div>
                         </td>
                         <td><div ng-show="{{user.is_team}}">
