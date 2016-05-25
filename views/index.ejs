@@ -320,7 +320,7 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <tr ng-repeat="user in filteredUsers = (users | filter: {'student_id': id_filter, 'name': name_filter, 'school': school_filter, 'grade': grade_filter, 'score': score_filter, 'is_team':team_filter})| orderBy:'id' " ng-show="user_id == '1'">
+                      <tr ng-repeat="user in filteredUsers = (users | filter: {'student_id': id_filter, 'name': name_filter, 'school': school_filter, 'grade': grade_filter, 'score.mentor1_score': score_filter, 'is_team':team_filter})| orderBy:'id' " ng-show="user_id == '1'">
                         <td>{{$index+1}}</td>
                         <td><div ng-show="{{user.is_team}}"><i class="users large orange icon"></i>
                             {{user.team_name}}
@@ -362,7 +362,7 @@
                           </a>
                         </td>
                       </tr>
-                      <tr ng-repeat="user in filteredUsers = (users | filter: {'student_id': id_filter, 'name': name_filter, 'school': school_filter, 'grade': grade_filter, 'score': score_filter, 'is_team':team_filter})| orderBy:'id' " ng-show="user_id == '2'">
+                      <tr ng-repeat="user in filteredUsers = (users | filter: {'student_id': id_filter, 'name': name_filter, 'school': school_filter, 'grade': grade_filter, 'score.mentor2_score': score_filter, 'is_team':team_filter})| orderBy:'id' " ng-show="user_id == '2'">
                         <td>{{$index+1}}</td>
                         <td><div ng-show="{{user.is_team}}"><i class="users large orange icon"></i>
                             {{user.team_name}}
@@ -404,7 +404,7 @@
                           </a>
                         </td>
                       </tr> 
-                      <tr ng-repeat="user in filteredUsers = (users | filter: {'student_id': id_filter, 'name': name_filter, 'school': school_filter, 'grade': grade_filter, 'score': score_filter, 'is_team':team_filter})| orderBy:'id' " ng-show="user_id == '3'">
+                      <tr ng-repeat="user in filteredUsers = (users | filter: {'student_id': id_filter, 'name': name_filter, 'school': school_filter, 'grade': grade_filter, 'score.mentor3_score': score_filter, 'is_team':team_filter})| orderBy:'id' " ng-show="user_id == '3'">
                         <td>{{$index+1}}</td>
                         <td><div ng-show="{{user.is_team}}"><i class="users large orange icon"></i>
                             {{user.team_name}}
@@ -446,7 +446,7 @@
                           </a>
                         </td>
                       </tr>
-                      <tr ng-repeat="user in filteredUsers = (users | filter: {'student_id': id_filter, 'name': name_filter, 'school': school_filter, 'grade': grade_filter, 'score': score_filter, 'is_team':team_filter})| orderBy:'id' " ng-show="user_id == '4'">
+                      <tr ng-repeat="user in filteredUsers = (users | filter: {'student_id': id_filter, 'name': name_filter, 'school': school_filter, 'grade': grade_filter, 'score.mentor4_score': score_filter, 'is_team':team_filter})| orderBy:'id' " ng-show="user_id == '4'">
                         <td>{{$index+1}}</td>
                         <td><div ng-show="{{user.is_team}}"><i class="users large orange icon"></i>
                             {{user.team_name}}
