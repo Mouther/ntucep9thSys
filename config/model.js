@@ -86,10 +86,10 @@ var User = new Schema({
   Submit_Date: String,
   Network_ID: String,
   score: {
-    mentor1_score: Number,
-    mentor2_score: Number,
-    mentor3_score: Number,
-    mentor4_score: Number,
+    mentor1_score: { type: Number, default: 0},
+    mentor2_score: { type: Number, default: 0},
+    mentor3_score: { type: Number, default: 0},
+    mentor4_score: { type: Number, default: 0}
     // cover_link_score: Number
   }
 });
