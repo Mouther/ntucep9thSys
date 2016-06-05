@@ -136,6 +136,7 @@ angular.module('app', ['ngSanitize', 'chart.js'])
       };
       obj.score = {};
       obj.score.total = 0;
+      obj.result = user.result;
       if (user.hasOwnProperty('score')) {
         if (user.score.hasOwnProperty('mentor1_score')) {
           obj.score.mentor1_score = parseInt(user.score.mentor1_score);
@@ -165,7 +166,7 @@ angular.module('app', ['ngSanitize', 'chart.js'])
     // $scope.labels = ["Download Sales", "In-Store Sales", "Mail-Order Sales"];
     // $scope.data = [300, 500, 100, 200, 300, 400, 500, 400, 500];
 
-    $scope.chart_member = 100;
+    $scope.chart_member = 60;
 
     $scope.updateChart = function() { 
       // default get first 80 students

@@ -76,6 +76,9 @@ router.get('/', ensureAuthenticated, function(req, res) {
 router.get('/dashboard', ensureAuthenticated, function(req, res) {
   return res.render('dashboard', { title: '成績總覽', user: req.user});
 });
+router.get('/billboard', function(req, res) {
+  return res.render('billboard', { title: '創九錄取名單'});
+});
 
 router.get('/login', function(req, res) {
   return res.render('login');
@@ -138,7 +141,7 @@ router.get('/api/alldata', apiEnsureAuthenticated, function(req, res) {
     // console.log(users);
     var returnObj = {
       users: users,
-      id: req.user.id
+      id: req.user?req.user.id:'quest'
     }
     return res.json(returnObj);
   });
@@ -232,7 +235,34 @@ router.get('/api/applicants/:id', function(req, res) {
 router.get('/application-form', function(req, res) {
   res.render('application-form', {title: '創創第八屆申請表'});
 });
-
+router.get('/backStu/:id', function(req, res) {
+  var id = req.params.id;
+  User.findOneAndUpdate({id: id}, {
+    $set: {
+      'result': 'back',
+      // 'score.skill_score': skill_score
+    }}, {upsert: true}, function(err) {
+      if (err) {
+        res.json({message:'error'});
+      } else {
+        res.redirect('/');
+      }
+    })
+});
+router.get('/passStu/:id', function(req, res) {
+  var id = req.params.id;
+  User.findOneAndUpdate({id: id}, {
+    $set: {
+      'result': 'pass',
+      // 'score.skill_score': skill_score
+    }}, {upsert: true}, function(err) {
+      if (err) {
+        res.json({message:'error'});
+      } else {
+        res.redirect('/');
+      }
+    })
+});
 router.get('/applicants/:id', function(req, res) {
 
   if (req.user.id == '1') {
@@ -257,7 +287,7 @@ router.get('/applicants/:id', function(req, res) {
 
 function ensureAuthenticated(req, res, next) {
   if (req.isAuthenticated()) { return next(); }
-  res.redirect('/login');
+  res.redirect('/billboard');
 }
 
 

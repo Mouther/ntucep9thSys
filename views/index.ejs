@@ -309,9 +309,10 @@
                 <table class="ui striped celled definition table">
                     <thead class="full-width">
                       <tr>
+                        
                         <th style="width:3%;">序號</th>
-                        <th style="width:3%;">團體</th>
-                        <th style="width:6%;">團體成員</th>
+                        <th style="width:2%;">團體</th>
+                        <th style="width:5%;">團體成員</th>
                         <th style="width:6%;">姓名</th>
                         <th style="width:5%;">學號</th>
                         <th style="width:10%;">大學</th>
@@ -326,11 +327,12 @@
    
                         <th style="width:6%;" ng-click="predicate = '+score.mentor4_score'; reverse = !reverse" ng-show="user_id == '4'">評分<i class='sort icon'></i></th>
                         <th style="width:10%;">查看</th>
-                        
+                        <th style="width:15%;" ng-show="user_id == '1'">狀態</th>
                       </tr>
                     </thead>
                     <tbody>
                       <tr ng-repeat="user in filteredUsers = (users | filter: {'student_id': id_filter, 'name': name_filter, 'school': school_filter, 'grade': grade_filter,'is_team':team_filter})| orderBy:'id' " ng-show="user_id == '1'">
+                        
                         <td>{{$index+1}}</td>
                         <td><div ng-show="{{user.is_team}}"><i class="users large orange icon"></i>
                             {{user.team_name}}
@@ -371,8 +373,17 @@
                             </div>
                           </a>
                         </td>
+                        <td><div class="ui buttons">
+                            <a href="/passStu/{{user.id}}" class="ui button positive" ng-show="user.result=='pass'">正取</a>
+                            <a href="/passStu/{{user.id}}" class="ui button" ng-show="user.result!='pass'">正取</a>
+                            <a href="/backStu/{{user.id}}" class="ui button negative" ng-show="user.result=='back'">備取</a>
+                            <a href="/backStu/{{user.id}}" class="ui button" ng-show="user.result!='back'">備取</a>
+                            <!-- <button class="ui button">淘汰</button> -->
+                          </div>
+                        </td>
                       </tr>
                       <tr ng-repeat="user in filteredUsers = (users | filter: {'student_id': id_filter, 'name': name_filter, 'school': school_filter, 'grade': grade_filter, 'is_team':team_filter})| orderBy:'id' " ng-show="user_id == '2'">
+                      
                         <td>{{$index+1}}</td>
                         <td><div ng-show="{{user.is_team}}"><i class="users large orange icon"></i>
                             {{user.team_name}}
@@ -415,6 +426,7 @@
                         </td>
                       </tr> 
                       <tr ng-repeat="user in filteredUsers = (users | filter: {'student_id': id_filter, 'name': name_filter, 'school': school_filter, 'grade': grade_filter, 'is_team':team_filter})| orderBy:'id' " ng-show="user_id == '3'">
+                      
                         <td>{{$index+1}}</td>
                         <td><div ng-show="{{user.is_team}}"><i class="users large orange icon"></i>
                             {{user.team_name}}
@@ -457,6 +469,7 @@
                         </td>
                       </tr>
                       <tr ng-repeat="user in filteredUsers = (users | filter: {'student_id': id_filter, 'name': name_filter, 'school': school_filter, 'grade': grade_filter, 'is_team':team_filter})| orderBy:predicate:reverse " ng-show="user_id == '4'">
+                     
                         <td>{{$index+1}}</td>
                         <td><div ng-show="{{user.is_team}}"><i class="users large orange icon"></i>
                             {{user.team_name}}

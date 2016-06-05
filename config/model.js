@@ -91,7 +91,8 @@ var User = new Schema({
     mentor3_score: { type: Number, default: 0},
     mentor4_score: { type: Number, default: 0}
     // cover_link_score: Number
-  }
+  },
+  result: { type: String, default: "fall"},
 });
 
 mongoose.model( 'User', User );
