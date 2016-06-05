@@ -263,6 +263,21 @@ router.get('/passStu/:id', function(req, res) {
       }
     })
 });
+router.get('/note/:id/:mynote', function(req, res) {
+  var id = req.params.id;
+  var mynote = req.params.mynote;
+  User.findOneAndUpdate({id: id}, {
+    $set: {
+      'note': mynote,
+      // 'score.skill_score': skill_score
+    }}, {upsert: true}, function(err) {
+      if (err) {
+        res.json({message:'error'});
+      } else {
+        res.redirect('/');
+      }
+    })
+});
 router.get('/applicants/:id', function(req, res) {
 
   if (req.user.id == '1') {

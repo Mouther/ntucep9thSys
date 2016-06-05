@@ -10,6 +10,18 @@ angular.module('app', ['ngSanitize', 'chart.js'])
   .error(function(data, status, headers, config) {
     console.log(data);
   });
+  $scope.submitNote = function(uid) {
+      var myNote = $('.note_input#'+uid).val();
+      console.log(myNote);
+      $http.get('/note/'+uid+'/'+myNote)
+      .success(function(data, status, header, config) {
+        alert('系統已記錄成績');
+        window.location.href = '/'
+      })
+      .error(function(data, status, header, config){
+        alert('有錯誤');
+      });
+    }
 }])
 
 .controller('ScoreCtrl', ['$scope', '$sce', '$http', function($scope, $sce, $http) {
@@ -23,8 +35,6 @@ angular.module('app', ['ngSanitize', 'chart.js'])
   .error(function(data, status, header, config) {
     console.log(status);
   });
-
-
 
   $scope.JRsubmitScore = function() {
     var id = $scope.user.id;
@@ -116,6 +126,7 @@ angular.module('app', ['ngSanitize', 'chart.js'])
 
 .controller('DashBoardCtrl', ['$scope', '$sce', '$http', function($scope, $sce, $http) {
   $http.get('/api/alldata')
+
   .success(function(data, status, header, config) {
     $scope.users = data.users.map(function(user) {
       var obj = {};
@@ -131,6 +142,7 @@ angular.module('app', ['ngSanitize', 'chart.js'])
       obj.department = user.department;
       obj.facebook_link = user.facebook_link;
       obj.grade = user.grade;
+      obj.note = user.note;
       if (user.hasOwnProperty('gender')) {
         obj.gender = user.gender
       };
@@ -165,7 +177,7 @@ angular.module('app', ['ngSanitize', 'chart.js'])
     // peichart default data
     // $scope.labels = ["Download Sales", "In-Store Sales", "Mail-Order Sales"];
     // $scope.data = [300, 500, 100, 200, 300, 400, 500, 400, 500];
-
+    
     $scope.chart_member = 60;
 
     $scope.updateChart = function() { 

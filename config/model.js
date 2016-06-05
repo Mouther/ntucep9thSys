@@ -93,6 +93,7 @@ var User = new Schema({
     // cover_link_score: Number
   },
   result: { type: String, default: "fall"},
+  note: String,
 });
 
 mongoose.model( 'User', User );
