@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html ng-app="app">
+  <head>
+    <title><%= title %></title>
+    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css"> -->
+    <!-- <link rel="stylesheet" href="/bower_components/angular-chart.js/dist/angular-chart.css"> -->
+    <!-- <link rel='stylesheet' href='/css/style.css' /> -->
+    <!-- <script src='/js/jquery-2.0.3.js'></script> -->
+    <!-- <script src='/js/bootstrap.js'></script> -->
+    <script src='/js/angular.min.js'></script>
+    <script src='/js/angular-sanitize.min.js'></script>
+    <script src="/bower_components/Chart.js/Chart.js"></script>
+    <script src="/bower_components/angular-chart.js/dist/angular-chart.js"></script>
+    <script src='/js/app.js'></script>
+    <link rel="stylesheet" type="text/css" href="semantic/dist/semantic.min.css">
+    <script src="js/jquery-2.2.3.min.js"></script>
+    <script src="semantic/dist/semantic.min.js"></script>
+    <style type="text/css">
+
+      body {
+        background-color: #FFFFFF;
+      }
+      .main.container {
+        margin-top: 2em;
+      }
+
+      .main.menu {
+        margin-top: 4em;
+        border-radius: 0;
+        border: none;
+        box-shadow: none;
+        transition:
+          box-shadow 0.5s ease,
+          padding 0.5s ease
+        ;
+      }
+      .main.menu .item img.logo {
+        margin-right: 1.5em;
+      }
+
+      .overlay {
+        float: left;
+        margin: 0em 3em 1em 0em;
+      }
+      .overlay .menu {
+        position: relative;
+        left: 0;
+        transition: left 0.5s ease;
+      }
+
+      .main.menu.fixed {
+        background-color: #FFFFFF;
+        border: 1px solid #DDD;
+        box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.2);
+      }
+      .overlay.fixed .menu {
+        left: 800px;
+      }
+
+      .text.container .left.floated.image {
+        margin: 2em 2em 2em -4em;
+      }
+      .text.container .right.floated.image {
+        margin: 2em -4em 2em 2em;
+      }
+
+      .ui.footer.segment {
+        margin: 5em 0em 0em;
+        padding: 5em 0em;
+      }
+
+
+    </style>
+    <script type="text/javascript">
+    $(document)
+      .ready(function() {
+        // fix main menu to page on passing
+        $('.main.menu').visibility({
+          type: 'fixed'
+        });
+        $('.overlay').visibility({
+          type: 'fixed',
+          offset: 80
+        });
+
+        // lazy load images
+        $('.image').visibility({
+          type: 'image',
+          transition: 'vertical flip in',
+          duration: 500
+        });
+
+        // show dropdown on hover
+        $('.main.menu  .ui.dropdown').dropdown({
+          on: 'hover'
+        });
+        $('.ui.rating')
+          .rating()
+        ;
+
+      })
+    ;
+    </script>
+  </head>
+  <body ng-controller="DashBoardCtrl">
+        <!-- Sidebar Menu -->
+    <div class="ui vertical inverted sidebar menu">
+      <div class="item">台大創創第九屆招生</div>
+      <a class="active item" href="/billboard">創九錄取名單</a>
+      
+        <div class="item">
+          <a class="ui button">登入</a>
+        </div>
+      
+    </div>
+    <!-- Following Menu -->
+    <div class="ui large top fixed hidden menu">
+      <div class="ui container">
+        <div class="item">
+          <img class="ui logo" src="/image/cep_logo_web-01.png" height="40">
+        </div>
+        <a class="active item" href="/billboard">創九錄取名單</a>
+        <div class="right menu">    
+            <div class="item">
+              <a class="ui button" href="login">登入</a>
+            </div>
+          
+          
+        </div>
+      </div>
+    </div>
+
+    
+    <!-- Page Contents -->
+    <div class="pusher ">
+      <div class="ui inverted vertical masthead center aligned segment"  style="background:#00B5B4;  padding-bottom:4.5em; margin-bottom:4.5em;">
+        <div class="ui text container">
+            <h1 class="ui inverted header" style="margin-top:4.5em;">
+              <%= title %>
+            </h1>
+            <h4>
+              說明:
+            </h4>
+            <p>
+              本屆報名人數共計148人，其中60位正取，9位備取
+            </p>
+            <p>
+              詳細評分狀況敬請參考如下
+            </p>
+            
+        </div>
+
+      </div>
+      
+      <!-- <div class="ui divider"></div> -->
+      <div class="ui internally celled grid container">
+        <div class="row">
+          <div class="nine wide column">
+
+            <div class="piechart">
+                <h2 class="ui header">正取 <span class="form-inline"><input type="text" class="form-control" ng-change="updateChart()" ng-model="chart_member" style="width:50px;" readonly></span> 名-科系分布圖</h2>
+                <div class="left">
+                  <canvas id="pie" class="chart chart-pie" data="data"
+                    labels="labels"></canvas>
+                </div>
+                
+            </div>
+          </div>
+          <div class="seven wide column">
+              <table class="ui striped table">
+                <thead>
+                  <tr>
+                    <th width="40%">學院別</th>
+                    <th width="60%">人數</th>
+                    
+                  </tr>
+                </thead>
+                <tbody>
+                  
+                  <tr class="list-group-item" ng-repeat="college in final_data | orderBy: '-data'">
+                    <td>{{college.label}}</td>
+                    <td class="badge">{{college.data}}</td>
+                  </tr>
+                </tbody>
+              </table>
+                
+          </div>
+        </div>
+      </div>
+      <div class="ui divider"></div>
+      <div class="ui internally celled grid container">
+        <div class="row">
+          <div class="nine wide column">
+
+            <div class="piechart">
+                <h2 class="ui header">正取 <span class="form-inline"><input type="text" class="form-control" ng-change="updateChart()" ng-model="chart_member" style="width:50px;" readonly></span> 名-大學分布圖</h2>
+                <div class="left">
+                  <canvas id="pie_school" class="chart chart-pie" data="data_school"
+                    labels="labels_school"></canvas>
+                </div>
+                
+            </div>
+          </div>
+          <div class="seven wide column">
+              <table class="ui striped table">
+                <thead>
+                  <tr>
+                    <th width="40%">大學</th>
+                    <th width="60%">人數</th>
+                    
+                  </tr>
+                </thead>
+                <tbody>
+                  
+                  <tr class="list-group-item" ng-repeat="school in final_data_school | orderBy: '-data'">
+                    <td>{{school.label}}</td>
+                    <td class="badge">{{school.data}}</td>
+                  </tr>
+                </tbody>
+              </table>
+                
+          </div>
+        </div>
+      </div>
+      <div class="ui divider"></div>
+      <div class="ui internally celled grid container">
+        <div class="row">
+          <div class="nine wide column">
+
+            <div class="piechart">
+                <h2 class="ui header">正取 <span class="form-inline"><input type="text" class="form-control" ng-change="updateChart()" ng-model="chart_member" style="width:50px;" readonly></span> 名-男女分布圖</h2>
+                <div class="left">
+                  <canvas id="pie_gender" class="chart chart-pie" data="data_gender"
+            labels="labels_gender"></canvas>
+                </div>
+                
+            </div>
+          </div>
+          <div class="seven wide column">
+              <table class="ui striped table">
+                <thead>
+                  <tr>
+                    <th width="40%">性別</th>
+                    <th width="60%">人數</th>
+                    
+                  </tr>
+                </thead>
+                <tbody>
+                 
+                  <tr class="list-group-item" ng-repeat="gender in final_data_gender | orderBy: '-data'">
+                    <td>{{gender.label}}</td>
+                    <td class="badge">{{gender.data}}</td>
+                  </tr>
+                </tbody>
+              </table>
+                
+          </div>
+        </div>
+      </div>
+      
+      <div class="ui divider"></div>
+      <div class="ui container" style="margin-bottom: 300px;">
+        <h1 class="ui header">正取列表</h1>
+        <!-- <p><i class="icon alarm outline"></i> 點擊「#」或 「總分」 可以排序，再次點擊反向排序</p> -->
+        <div class="ui menu">
+            <div class="header item">快速篩選:</div>
+                  <div class="ui icon input item">
+                    <input type="text" ng-model="name_filter" class="form-control" placeholder="搜尋姓名...", size="10">
+                    <!-- <i class="users icon"></i> -->
+                  </div>
+                  <div class="ui icon input item">
+                    <input type="text" ng-model="id_filter" class="form-control" placeholder="搜尋學號...", size="10">
+                    <!-- <i class="browser icon"></i> -->
+                  </div>
+                  <div class="ui icon input item">
+                    <label>個/團:
+                      <select class="ui search dropdown" ng-model="team_filter">
+                        <option value="">無分類:</option>
+                        <option value="false">個人</option>
+                        <option value="true">團體</option>
+                        
+                      </select>
+                    </label>
+
+                  </div>
+                  <div class="ui icon input item">
+                    <label>學校別:
+                      <select class="ui search dropdown" ng-model="school_filter">
+                        <option value="">無分類:</option>
+                        <option value="國立臺灣大學">台大</option>
+                        <option value="國立台灣師範大學">師大</option>
+                        <option value="國立臺灣科技大學">台科大</option>
+                      </select>
+                    </label>
+
+                    <!-- <input type="text" ng-model="school_filter" class="form-control" placeholder="學校分類..."> -->
+                    <!-- <i class="browser icon"></i> -->
+                  </div>
+                  <div class="ui icon input item">
+                    <label>年級別:
+                      <select class="ui search dropdown" ng-model="grade_filter">
+                        <option value="">無分類:</option>
+                        <option value="大學">大學</option>
+                        <option value="大學一年級">大一</option>
+                        <option value="大學二年級">大二</option>
+                        <option value="大學三年級">大三</option>
+                        <option value="大學四年級">大四</option>
+                        <option value="碩">碩士</option>
+                        <option value="博">博士</option>
+                      </select>
+                    </label>
+                  </div>
+                  <!-- <div class="ui icon input item">
+                    <label>評分別:
+
+                      <select class="ui search dropdown" ng-model="score_filter">
+                        <option selected value="">無分類:</option>
+                        <option value="3">3</option>
+                        <option value="2">2</option>
+                        <option value="1">1</option>
+                        <option value="0">未評分</option>
+                      </select>
+                    </label>
+                    <input type="number" ng-model="score_filter" class="form-control" placeholder="搜尋學號...", size="5">
+                  </div> -->
+          </div>
+        <table class="ui striped celled definition table">
+          <thead class="full-width">
+            <tr>
+              <th style="width:5%;" ng-click="predicate = 'id'; reverse = !reverse">序號<i class='sort icon'></i></th>
+              <th style="width:6%;">團體</th>
+              <th style="width:6%;">姓名</th>
+              <th style="width:4%;">性別</th>
+              <th style="width:5%;">學號</th>
+              <th style="width:10%;">大學</th>
+              <th style="width:10%;">學院別</th>
+              <th style="width:10%;">科系</th>
+              <th style="width:10%;">年級</th>
+              <!-- <th style="width:6%;">個別評分</th>
+              <th style="width:6%;" ng-click="predicate = 'score.total'; reverse = !reverse">總分<i class='sort icon'></i></th> -->
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="user in filteredUsers = (users | filter: {'student_id': id_filter, 'name': name_filter, 'school': school_filter, 'grade': grade_filter,'is_team':team_filter, 'result': 'pass'}) | orderBy:total" ng-init="total = user.score.mentor1_score + user.score.mentor2_score + user.score.mentor3_score + user.score.mentor4_score">
+            <!-- <tr ng-repeat="user in users | orderBy:predicate:reverse" ng-init="total = user.score.mentor1_score + user.score.mentor2_score + user.score.mentor3_score + user.score.mentor4_score"> -->
+              <!-- <td>{{user.id}}</th> -->
+              <td>
+                <!-- <div class="ui fitted toggle checkbox">
+                  <input type="checkbox"> <label></label>
+                </div> -->
+                {{$index+1}}
+              </td>
+              <td><div ng-show="{{user.is_team}}"><i class="users large orange icon"></i></div></td>
+              <td><a href="{{user.facebook_link}}" target="_blank">{{user.name}}</a></td>
+              <td>{{user.gender}}</td>
+              <td>{{user.student_id}}</td>
+              <td>{{user.school}}</td>
+              <td>{{user.college}}</td>
+              <td>{{user.department}}</td>
+              <td>{{user.grade}}</td>
+              <!-- <td style="width: 15%">{{user.score.mentor1_score || 'x'}} | {{user.score.mentor2_score || 'x'}} | {{user.score.mentor3_score || 'x'}} | {{user.score.mentor4_score || 'x'}}</td>
+              <td>{{user.score.total}}</td>
+               -->
+            </tr>
+            
+          </tbody>
+      </table>
+      <div class="ui divider"></div>
+      <h1 class="ui header">備取列表</h1>
+        <div class="ui menu">
+            <div class="header item">快速篩選:</div>
+                  <div class="ui icon input item">
+                    <input type="text" ng-model="name_filter2" class="form-control" placeholder="搜尋姓名...", size="10">
+                    <!-- <i class="users icon"></i> -->
+                  </div>
+                  <div class="ui icon input item">
+                    <input type="text" ng-model="id_filter2" class="form-control" placeholder="搜尋學號...", size="10">
+                    <!-- <i class="browser icon"></i> -->
+                  </div>
+                  <div class="ui icon input item">
+                    <label>個/團:
+                      <select class="ui search dropdown" ng-model="team_filter2">
+                        <option value="">無分類:</option>
+                        <option value="false">個人</option>
+                        <option value="true">團體</option>
+                        
+                      </select>
+                    </label>
+
+                  </div>
+                  <div class="ui icon input item">
+                    <label>學校別:
+                      <select class="ui search dropdown" ng-model="school_filter2">
+                        <option value="">無分類:</option>
+                        <option value="國立臺灣大學">台大</option>
+                        <option value="國立台灣師範大學">師大</option>
+                        <option value="國立臺灣科技大學">台科大</option>
+                      </select>
+                    </label>
+
+                    <!-- <input type="text" ng-model="school_filter" class="form-control" placeholder="學校分類..."> -->
+                    <!-- <i class="browser icon"></i> -->
+                  </div>
+                  <div class="ui icon input item">
+                    <label>年級別:
+                      <select class="ui search dropdown" ng-model="grade_filter2">
+                        <option value="">無分類:</option>
+                        <option value="大學">大學</option>
+                        <option value="大學一年級">大一</option>
+                        <option value="大學二年級">大二</option>
+                        <option value="大學三年級">大三</option>
+                        <option value="大學四年級">大四</option>
+                        <option value="碩">碩士</option>
+                        <option value="博">博士</option>
+                      </select>
+                    </label>
+                  </div>
+                  <!-- <div class="ui icon input item">
+                    <label>評分別:
+
+                      <select class="ui search dropdown" ng-model="score_filter">
+                        <option selected value="">無分類:</option>
+                        <option value="3">3</option>
+                        <option value="2">2</option>
+                        <option value="1">1</option>
+                        <option value="0">未評分</option>
+                      </select>
+                    </label>
+                    <input type="number" ng-model="score_filter" class="form-control" placeholder="搜尋學號...", size="5">
+                  </div> -->
+          </div>
+        <table class="ui striped celled definition table">
+          <thead class="full-width">
+            <tr>
+              <th style="width:5%;" ng-click="predicate = 'id'; reverse = !reverse">序號<i class='sort icon'></i></th>
+              <th style="width:6%;">團體</th>
+              <th style="width:6%;">姓名</th>
+              <th style="width:4%;">性別</th>
+              <th style="width:5%;">學號</th>
+              <th style="width:10%;">大學</th>
+              <th style="width:10%;">學院別</th>
+              <th style="width:10%;">科系</th>
+              <th style="width:10%;">年級</th>
+              <!-- <th style="width:6%;">個別評分</th>
+              <th style="width:6%;" ng-click="predicate = 'score.total'; reverse = !reverse">總分<i class='sort icon'></i></th> -->
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="user in filteredUsers = (users | filter: {'student_id': id_filter2, 'name': name_filter2, 'school': school_filter2, 'grade': grade_filter2,'is_team':team_filter2, 'result': 'back'}) | orderBy:total" ng-init="total = user.score.mentor1_score + user.score.mentor2_score + user.score.mentor3_score + user.score.mentor4_score">
+            <!-- <tr ng-repeat="user in users | orderBy:predicate:reverse" ng-init="total = user.score.mentor1_score + user.score.mentor2_score + user.score.mentor3_score + user.score.mentor4_score"> -->
+              <!-- <td>{{user.id}}</th> -->
+              <td>
+                <!-- <div class="ui fitted toggle checkbox">
+                  <input type="checkbox"> <label></label>
+                </div> -->
+                {{$index+1}}
+              </td>
+              <td><div ng-show="{{user.is_team}}"><i class="users large orange icon"></i></div></td>
+              <td><a href="{{user.facebook_link}}" target="_blank">{{user.name}}</a></td>
+              <td>{{user.gender}}</td>
+              <td>{{user.student_id}}</td>
+              <td>{{user.school}}</td>
+              <td>{{user.college}}</td>
+              <td>{{user.department}}</td>
+              <td>{{user.grade}}</td>
+              <!-- <td style="width: 15%">{{user.score.mentor1_score || 'x'}} | {{user.score.mentor2_score || 'x'}} | {{user.score.mentor3_score || 'x'}} | {{user.score.mentor4_score || 'x'}}</td>
+              <td>{{user.score.total}}</td>
+               -->
+            </tr>
+            
+          </tbody>
+      </table>
+    
+    
+    </div>
+    <div class="container">
+
+      
+      
+      <div class="clearfix"></div>
+      <!-- <p><span class="label label-info">Info</span> 點擊 #, total 可以排序，再次點擊反向排序</p>
+      <p><span class="label label-info">Info</span> 成績依序為封面(jrlee)、創業技能(jrlee)、影片(shihchung)、成功經驗(tmliu)、失敗經驗(tmliu)</p> -->
+      <!-- <table class="table table-hover header-fixed2 header-fixed">
+        <thead>
+          <tr>
+            <th style="width:7%">流水號</th>
+            <th style="width:3%" ng-click="predicate = 'id'; reverse = !reverse">#</th>
+            <th>name</th>
+            <th>student id</th>
+            <th>college</th>
+            <th>department</th>
+            <th>grade</th>
+            <th style="width: 15%">score</th>
+            <th ng-click="predicate = 'score.total'; reverse = !reverse">total</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="user in users | orderBy:predicate:reverse" ng-init="total = user.score.cover_link_score + user.score.skill_score + user.score.youtube_link_score + user.score.success_item_score + user.score.fail_item_score">
+            <td style="width: 7%">{{$index+1}}</td>
+            <td style="width: 3%">{{user.id}}</th>
+            <td>{{user.name}} | {{user.gender}}</td>
+            <td>{{user.student_id}}</td>
+            <td>{{user.college}}</td>
+            <td>{{user.department}}</td>
+            <td>{{user.grade}}</td>
+            <td style="width: 15%">{{user.score.cover_link_score || 'x'}} | {{user.score.skill_score || 'x'}} | {{user.score.youtube_link_score || 'x'}} | {{user.score.success_item_score || 'x'}} | {{user.score.fail_item_score || 'x'}}</td>
+            <td>{{user.score.total}}</td>
+          </tr>
+        </tbody>
+      </table> -->
+    </div> <!-- end of container -->
+  </body>
+</html>
