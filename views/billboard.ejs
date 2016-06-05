@@ -447,7 +447,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr ng-repeat="user in filteredUsers = (users | filter: {'student_id': id_filter2, 'name': name_filter2, 'school': school_filter2, 'grade': grade_filter2,'is_team':team_filter2, 'result': 'back'}) | orderBy: note" ng-init="total = user.score.mentor1_score + user.score.mentor2_score + user.score.mentor3_score + user.score.mentor4_score">
+            <tr ng-repeat="user in filteredUsers = (users | filter: {'student_id': id_filter2, 'name': name_filter2, 'school': school_filter2, 'grade': grade_filter2,'is_team':team_filter2, 'result': 'back'}) | orderBy: 'note' " ng-init="total = user.score.mentor1_score + user.score.mentor2_score + user.score.mentor3_score + user.score.mentor4_score">
             <!-- <tr ng-repeat="user in users | orderBy:predicate:reverse" ng-init="total = user.score.mentor1_score + user.score.mentor2_score + user.score.mentor3_score + user.score.mentor4_score"> -->
               <!-- <td>{{user.id}}</th> -->
               <td>{{user.note}}</td>
