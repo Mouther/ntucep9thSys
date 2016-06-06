@@ -260,7 +260,7 @@
       
       <div class="ui divider"></div>
       <div class="ui container" style="margin-bottom: 300px;">
-        <h1 class="ui header">正取列表</h1>
+        <h1 class="ui header">正取列表 (合計:{{filteredUsers.length}} )</h1>
         <!-- <p><i class="icon alarm outline"></i> 點擊「#」或 「總分」 可以排序，再次點擊反向排序</p> -->
         <div class="ui menu">
             <div class="header item">快速篩選:</div>
@@ -374,7 +374,7 @@
           </tbody>
       </table>
       <div class="ui divider"></div>
-      <h1 class="ui header">備取列表</h1>
+      <h1 class="ui header">備取列表 (合計:{{filteredUsers2.length}} )</h1>
         <div class="ui menu">
             <div class="header item">快速篩選:</div>
                   <div class="ui icon input item">
@@ -455,7 +455,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr ng-repeat="user in filteredUsers = (users | filter: {'student_id': id_filter2, 'name': name_filter2, 'school': school_filter2, 'grade': grade_filter2,'is_team':team_filter2, 'result': 'back'}) | orderBy: 'note' " ng-init="total = user.score.mentor1_score + user.score.mentor2_score + user.score.mentor3_score + user.score.mentor4_score">
+            <tr ng-repeat="user in filteredUsers2 = (users | filter: {'student_id': id_filter2, 'name': name_filter2, 'school': school_filter2, 'grade': grade_filter2,'is_team':team_filter2, 'result': 'back'}) | orderBy: 'note' " ng-init="total = user.score.mentor1_score + user.score.mentor2_score + user.score.mentor3_score + user.score.mentor4_score">
             <!-- <tr ng-repeat="user in users | orderBy:predicate:reverse" ng-init="total = user.score.mentor1_score + user.score.mentor2_score + user.score.mentor3_score + user.score.mentor4_score"> -->
               <!-- <td>{{user.id}}</th> -->
               <td>{{user.note}}</td>
