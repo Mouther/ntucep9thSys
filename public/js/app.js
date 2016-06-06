@@ -191,14 +191,13 @@ angular.module('app', ['ngSanitize', 'chart.js'])
 
     $scope.updateChart = function() { 
       // default get first 80 students
-      $scope.chart_data = $scope.users.map(function(a) {
-        if(a.result=="pass"){
-          return a;
-        }
-        else{
-          return null;
-        }
+      var chart_dataArr = [];
+      $scope.users.forEach(function(thisUser){
+          if(thisUser.result=="pass"){
+            chart_dataArr.push(thisUser);
+          }
       });
+      $scope.chart_data = chart_dataArr;
       // get first 80 student each college
       $scope.all_college = $scope.chart_data.map(function(obj) { return obj.college });
       $scope.all_school = $scope.chart_data.map(function(obj) { return obj.school });
