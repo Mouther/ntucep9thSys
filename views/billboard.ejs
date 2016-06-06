@@ -350,15 +350,21 @@
                 </div> -->
                 {{$index+1}}
               </td>
-              <td><div ng-show="{{user.is_team}}"><i class="users large orange icon"></i>{{user.team_name}}<p><div ng-show="user.leader_name!=0">
-                              隊長:{{user.leader_name}},
-                            </div>
-                            <div ng-show="user.member1_name!=0">
-                              成員1:{{user.member1_name}},
-                            </div>
-                            <div ng-show="user.member2_name!=0">
-                              成員2:{{user.member2_name}}
-                            </div></p></div></td>
+              <td><div ng-show="{{user.is_team}}"><i class="users large orange icon"></i>{{user.team_name}}<div ng-show="user.team_name!='高年級實習生'">
+                    <p>
+                        <div ng-show="user.leader_name!=0">
+                          隊長:{{user.leader_name}},
+                        </div>
+                        <div ng-show="user.member1_name!=0">
+                          成員1:{{user.member1_name}},
+                        </div>
+                        <div ng-show="user.member2_name!=0">
+                          成員2:{{user.member2_name}}
+                        </div>
+                    </p>
+                  </div>
+                </div>
+              </td>
               <td><a href="{{user.facebook_link}}" target="_blank">{{user.name}}</a></td>
               <td>{{user.gender}}</td>
               <td>{{user.student_id}}</td>
