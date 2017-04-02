@@ -6,13 +6,14 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var cookieSession = require('cookie-session');
 var passport = require('passport');
+var spreadSheet = require('edit-google-spreadsheet');
+var sheetConfig = require('./config/sheet-config.js');
+
+require('./config/model');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
 
-
-
-require('./config/model');
 mongoose = require('mongoose');
 User = mongoose.model('User');
 
@@ -44,6 +45,14 @@ app.use(passport.session());
 app.use(express.static(path.join(__dirname, 'public')));
 // app.use(allowCrossDomain);
 app.use(cors());
+
+app.use(function(req, res, next) {
+  spreadSheet.load(sheetConfig, function(err, _sheet) {
+    if(err) return console.error(err);
+    routes.sheet = _sheet;
+    next();
+  });
+});
 
 app.use('/', routes);
 app.use('/users', users);
@@ -81,7 +90,7 @@ app.use(function(err, req, res, next) {
     });
 });
 
-app.set('port', process.env.PORT || 3000);
+app.set('port', process.env.PORT || 8000);
 
 var server = app.listen(app.get('port'), function() {
   console.log('Express server listening on port ' + server.address().port);

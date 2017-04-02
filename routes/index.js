@@ -3,7 +3,9 @@ var router = express.Router();
 var request = require('request');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
-
+var sheetFunc = require('../config/sheet');
+var loadSheet = sheetFunc.load;
+var findOne = sheetFunc.findOne;
 
 var KEY = '4d8291a1a41b556f1b33e6b4b2fe71c87b04b55f';
 
@@ -24,6 +26,12 @@ var users = [
     id: 5, username: 'ntucep', password: 'ntucepcep', email: 'ntucep@ntu.edu.tw', name: '創創'
   }
 ];
+
+function import$(obj, src){
+  var own = {}.hasOwnProperty;
+  for (var key in src) if (own.call(src, key)) obj[key] = src[key];
+  return obj;
+};
 
 passport.use(new LocalStrategy(
 
@@ -63,6 +71,11 @@ passport.deserializeUser(function(id, done) {
   } else {
     done(new Error('User ' + id + 'does not exist'));
   }
+});
+
+router.get('/test', function(req, res) {
+  // res.send(router.sheet);
+  loadSheet(router.sheet, function(data) {res.send(data);});
 });
 
 /* GET home page. */
@@ -133,18 +146,34 @@ router.get('/api', function(req, res) {
 //   });
 // });
 
-router.get('/api/alldata', apiEnsureAuthenticated, function(req, res) {
-  User.find({}).exec(function(err, users) {
-    if (err) {
-      return console.log(err);
-    };
-    // console.log(users);
-    var returnObj = {
-      users: users,
-      id: req.user?req.user.id:'quest'
-    }
-    return res.json(returnObj);
+router.get('/api/alldata', function(req, res) {
+  loadSheet(router.sheet, function(users) {
+    User.find({}).exec(function(err, users_) {
+      if (err) console.error(err);
+      for (let i = 0; i < users.length; i++) {
+        var user_ = users_.find(function(u) { return u.id == users[i].id });
+        if (!user_) continue;
+        else users[i] = import$(users[i], user_._doc);
+      }
+      var returnObj = {
+        users: users,
+        id: req.user?req.user.id:'quest'
+      };
+      return res.json(returnObj);
+    });
   });
+
+  // User.find({}).exec(function(err, users) {
+  //   if (err) {
+  //     return console.log(err);
+  //   };
+  //   // console.log(users);
+  //   var returnObj = {
+  //     users: users,
+  //     id: req.user?req.user.id:'quest'
+  //   }
+  //   return res.json(returnObj);
+  // });
 });
 
 router.get('/api/score/jr/:id/:all_score', apiEnsureAuthenticated, function(req, res) {
@@ -223,13 +252,17 @@ router.get('/api/score/lf/:id/:all_score', apiEnsureAuthenticated, function(req,
 });
 
 router.get('/api/applicants/:id', function(req, res) {
-  User.findOne({id: req.params.id}).exec(function(err, user) {
-    if (err) {
-      console.log(err);
-      return 'There is an error';
-    };
+  findOne(router.sheet, parseInt(req.params.id), function(user) {
     return res.json(user);
   });
+
+  // User.findOne({id: req.params.id}).exec(function(err, user) {
+  //   if (err) {
+  //     console.log(err);
+  //     return 'There is an error';
+  //   };
+  //   return res.json(user);
+  // });
 });
 
 router.get('/application-form', function(req, res) {
@@ -308,14 +341,12 @@ function ensureAuthenticated(req, res, next) {
 
 //@TODO remove return next for production
 function apiEnsureAuthenticated(req, res, next) {
-  // if (req.isAuthenticated()) { return next(); }
-  // res.status(400);
-  // res.json({
-  //   "status": 400,
-  //   "message": "Not Authenticated"
-  // });
-  // return;
-  return next();
+  if (req.isAuthenticated()) { return next(); }
+  res.status(400);
+  return res.json({
+    "status": 400,
+    "message": "Not Authenticated"
+  });
 }
 
 module.exports = router;

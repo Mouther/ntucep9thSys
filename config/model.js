@@ -97,4 +97,4 @@ var User = new Schema({
 });
 
 mongoose.model( 'User', User );
-mongoose.connect('mongodb://localhost/ntucep9');
+mongoose.connect('mongodb://ntucep10:zxcv123@localhost/ntucep10');

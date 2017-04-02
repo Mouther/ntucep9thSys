@@ -30,11 +30,13 @@ angular.module('app', ['ngSanitize', 'chart.js'])
   // console.log(id);
   $http.get('/api/applicants/'+id)
   .success(function(data, status, headers, config) {
-    $scope.user = data
+    $scope.user = data;
   })
   .error(function(data, status, header, config) {
     console.log(status);
   });
+
+  $scope.isURL = isURL;
 
   $scope.JRsubmitScore = function() {
     var id = $scope.user.id;
@@ -399,3 +401,15 @@ function removeDuplicateAndCountAmount(arr) {
 
     return [a, b];
 }
+
+function testLinks(){
+  $(".test-link").each(function(){
+    console.log(this.innerText);
+  });
+};
+
+function isURL(str) {
+  var expression = /https?:\/\/[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?/gi;
+  var regex = new RegExp(expression);
+  return regex.test(str);
+};
