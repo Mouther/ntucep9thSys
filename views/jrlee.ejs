@@ -143,15 +143,22 @@
             <div class="card">
               <div class="content">
 
-                <div class="right floated" ng-show="user.is_team">團體報名 <i class="right floated orange large users icon"></i><div class="text red">{{user.team_name}}</div><div class="red" ng-show="user.am_i_leader == 1">(隊長)</div><div class="red" ng-show="user.am_i_leader != 1">(成員)</div></div>
-                <div class="description right floated" ng-show="!user.is_team">個人報名 <i class="right floated large user icon"></i></div>
+                <div class="right floated" ng-show="user.team">
+                  團體報名
+                  <i class="right floated orange large users icon"></i>
+                  <div class="text red">{{user.team}}</div>
+                  <div class="red" ng-show="user.leader_name == user.name">(隊長)</div>
+                  <div class="red" ng-show="user.leader_name !== user.name">(成員)</div>
+                </div>
+
+                <div class="description right floated" ng-show="!user.team">個人報名 <i class="right floated large user icon"></i></div>
                 
                 <div class="header">{{user.name}}</div>
-                <div class="description">性別:{{user.gender}}</div>
+                <div class="description">性別: {{user.gender}}</div>
                 <div class="description">{{user.school}}</div>
-                <div class="description">學號:{{user.student_id}}</div>
                 <div class="description">{{user.college}} - {{user.department}}</div>
-                <div class="description">年級:{{user.grade}}</div>
+                <div class="description">年級: {{user.grade}}</div>
+                <div class="description">學號: {{user.student_id}}</div>
                 <div class="description">未來一年出國交換計畫: {{user.exchange_student}}
                 <% if (user.exchange_student=="是") { %>
                   
@@ -432,32 +439,32 @@
           </div>
         </div>
         <!--  7 -->
-        <div class="ui raised orange segment" ng-show="user.is_team">
-          <p>4.團體資料與提問</p>
+        <div class="ui raised orange segment" ng-show="user.team">
+          <p>4. 團體資料與提問</p>
           <div class="ui segments">
             <div class="ui secondary segment">
-              <p>請說明你們團隊的組成與角色，以及想解決的問題、解決方案、或商業模式為何?</p>
+              <p>請說明你們團隊的組成與角色分工，以及想解決的問題、解決方案、或商業模式為何？</p>
             </div>
               <div class="ui segments">
-                <div class="ui segment" ng-show="user.team_formation_bm!=0">
+                <div class="ui segment" ng-show="user.team_formation_bm">
                   {{user.team_formation_bm}}
                   
                 </div>
-                <div class="ui segment" ng-show="user.team_formation_bm==0">
+                <div class="ui segment" ng-show="!user.team_formation_bm">
                   <p><i class="attention red icon"></i>此位學生沒有提供此問題回答</p>
                   
                 </div>
               </div>
             <div class="ui secondary segment">
-              <p>若有機會進入創創學程，你們期待學程能提供哪些發展資源與協助?</p>
+              <p>請說明團隊目前的發展階段，以及擁有的團隊資源？</p>
             </div>
               <div class="ui segments">
                
-                <div class="ui segment" ng-show="user.team_resource!=0">
+                <div class="ui segment" ng-show="user.team_resource">
                   {{user.team_resource}}
                   
                 </div>
-                <div class="ui segment" ng-show="user.team_resource==0">
+                <div class="ui segment" ng-show="!user.team_resource">
                   <p><i class="attention red icon"></i>此位學生沒有提供此問題回答</p>
                 </div>
               </div>
@@ -466,17 +473,16 @@
 若有任何其他有助於學程取才決策的輔助資料，歡迎以夾帶檔案的方式提供。(如 Prototype 介紹)</p>
             </div>
               <div class="ui segments">
-                <div class="ui segment" ng-show="user.team_link!=0">
-                  <a href="{{user.team_link}}" target="_blank">
-                    {{user.team_link}}
-                  </a>
-                  純文字:{{user.team_link}}
-                </div>
-                <div class="ui segment" ng-show="user.team_link==0">
+                <div class="ui segment" ng-show="user.team_link">
+                  <div ng-switch on="isURL(user.team_link)">
+                    <p ng-switch-when="true"><a href="{{user.team_link}}" target="_blank">附檔連結</a></p>
+                    <p ng-switch-default>{{user.team_link}}</p>
+                  </div>  
+                </div>  
+                <div class="ui segment" ng-show="!user.team_link">
                   <p><i class="attention red icon"></i>此位學生沒有提供此題連結</p>
                   
                 </div>
-                
                 
               </div>
             
