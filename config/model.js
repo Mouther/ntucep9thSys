@@ -1,4 +1,5 @@
 var mongoose = require('mongoose');
+var fs = require('fs');
 var Schema   = mongoose.Schema;
 // var config = require('./config');
 
@@ -97,4 +98,4 @@ var User = new Schema({
 });
 
 mongoose.model( 'User', User );
-mongoose.connect('mongodb://ntucep10:zxcv123@localhost/ntucep10');
+mongoose.connect(fs.readFileSync(__dirname + '/mongo-config', 'utf-8').slice(0, -1));
