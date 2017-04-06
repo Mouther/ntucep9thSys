@@ -267,9 +267,9 @@
                     <label>學校別:
                       <select class="ui search dropdown" ng-model="school_filter">
                         <option value="">無分類:</option>
-                        <option value="國立臺灣大學">台大</option>
-                        <option value="國立台灣師範大學">師大</option>
-                        <option value="國立臺灣科技大學">台科大</option>
+                        <option value="臺灣大學">台大</option>
+                        <option value="臺灣師範大學">師大</option>
+                        <option value="臺灣科技大學">台科大</option>
                       </select>
                     </label>
 
@@ -332,7 +332,7 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <tr ng-repeat="user in filteredUsers = (users | filter: {'student_id': id_filter, 'name': name_filter, 'school': school_filter, 'grade': grade_filter,'is_team':team_filter})| orderBy:'id' " ng-show="user_id == '1'">
+                      <tr ng-repeat="user in filteredUsers = (users | filter: {'student_id': id_filter, 'name': name_filter, 'school': school_filter, 'grade': grade_filter, 'is_team': team_filter})| orderBy:'id' " ng-show="user_id == '1'">
                         
                         <td>{{user.id}}</td>
                         <td><div ng-show="user.team"><i class="users large orange icon"></i>

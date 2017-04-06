@@ -70,7 +70,6 @@ var User = new Schema({
   contact3_phone: String,
   contact3_time: String,
   // team info
-  is_team: { type: Boolean, default: false},
   am_i_leader: String,
   team_name: String,
   leader_name: String,

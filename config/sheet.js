@@ -78,6 +78,7 @@ function mapping(i, tmp) {
     contact3_email: tmp[45],
 
     team: tmp[46],
+    is_team: tmp[46] ? true : false,
     am_i_leader: tmp[47] == tmp[2],
     leader_name: tmp[47],
     leader_school: tmp[48],
