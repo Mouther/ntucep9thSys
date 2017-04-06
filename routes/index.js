@@ -7,8 +7,6 @@ var sheetFunc = require('../config/sheet');
 var loadSheet = sheetFunc.load;
 var findOne = sheetFunc.findOne;
 
-var KEY = '4d8291a1a41b556f1b33e6b4b2fe71c87b04b55f';
-
 var users = [
   {
     id: 1, username: 'jrlee', password: 'jrleecep', email: 'jiren@ntu.edu.tw', name: '李吉仁 老師'
@@ -125,13 +123,13 @@ router.post('/login', function(req, res) {
   })(req, res); // immediately invoke authenticate() function
 });
 
-router.get('/api', function(req, res) {
-  var URL = 'https://api.typeform.com/v0/form/iHKWCT?key='+ KEY +'&completed=true';
-  request(URL, function(err, response, html) {
-    // res.json(JSON.parse(response.body));
-    res.send(response)
-  });
-});
+// router.get('/api', function(req, res) {
+//   var URL = 'https://api.typeform.com/v0/form/iHKWCT?key='+ KEY +'&completed=true';
+//   request(URL, function(err, response, html) {
+//     // res.json(JSON.parse(response.body));
+//     res.send(response)
+//   });
+// });
 
 // router.get('/api/all', function(req, res) {
 //   var URL = 'https://api.typeform.com/v0/form/iHKWCT?key='+ KEY +'&completed=true';
