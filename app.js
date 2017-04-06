@@ -22,7 +22,6 @@ var app = express();
 
 //CORS middleware
 var allowCrossDomain = function(req, res, next) {
-    res.header('Access-Control-Allow-Origin', 'typeform.com');
     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
     res.header('Access-Control-Allow-Headers', 'Content-Type');
 
@@ -39,7 +38,7 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false })); // not 
 app.use(cookieParser());
-app.use(cookieSession({keys: ['ntucep8th-sercet']}))
+app.use(cookieSession({keys: ['ntucep10th-sercet']}))
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(express.static(path.join(__dirname, 'public')));

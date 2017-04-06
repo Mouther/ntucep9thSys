@@ -81,14 +81,14 @@ router.get('/', ensureAuthenticated, function(req, res) {
   if (req.user.id == '5') {
     return res.redirect('/dashboard');
   };
-  return res.render('index', { title: '創九報名 批改系統' , user: req.user});
+  return res.render('index', { title: '創十報名 批改系統' , user: req.user});
 });
 
 router.get('/dashboard', ensureAuthenticated, function(req, res) {
   return res.render('dashboard', { title: '成績總覽', user: req.user});
 });
 router.get('/billboard', function(req, res) {
-  return res.render('billboard', { title: '創九錄取名單'});
+  return res.render('billboard', { title: '創十錄取名單'});
 });
 
 router.get('/login', function(req, res) {
@@ -263,9 +263,10 @@ router.get('/api/applicants/:id', function(req, res) {
   // });
 });
 
-router.get('/application-form', function(req, res) {
-  res.render('application-form', {title: '創創第八屆申請表'});
-});
+// router.get('/application-form', function(req, res) {
+//   res.render('application-form', {title: '創創第八屆申請表'});
+// });
+
 router.get('/backStu/:id', function(req, res) {
   var id = req.params.id;
   User.findOneAndUpdate({id: id}, {
