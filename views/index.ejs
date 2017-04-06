@@ -229,8 +229,8 @@
           <div id="demo" class="ui mini star rating" data-rating="2" data-max-rating="3" disabled ></div> 表示給予此學生 2分(中等，其意為:'普通')<br>
           <div id="demo" class="ui mini star rating" data-rating="3" data-max-rating="3" disabled></div> 表示給予此學生 3分(最高分，其意為:'建議錄取')
           </p>
-          <p>若有問題請透過我的信箱聯絡:evin92@gmail.com <a href="mailto:evin92@gmail.com">[快速寄信]</a></p>
-          <p>緊急時刻請打 0987-838-646 林哲緯</p>
+          <p>若有問題請透過我的信箱聯絡:za7788az@live.com <a href="mailto:za7788az@live.com">[快速寄信]</a></p>
+          <p>緊急時刻請打 0956-879-886 薛智豪</p>
           <!-- <div class="ui huge primary button">Get Started <i class="right arrow icon"></i></div> -->
         </div>
 
@@ -334,20 +334,26 @@
                     <tbody>
                       <tr ng-repeat="user in filteredUsers = (users | filter: {'student_id': id_filter, 'name': name_filter, 'school': school_filter, 'grade': grade_filter,'is_team':team_filter})| orderBy:'id' " ng-show="user_id == '1'">
                         
-                        <td>{{$index+1}}</td>
-                        <td><div ng-show="{{user.is_team}}"><i class="users large orange icon"></i>
-                            {{user.team_name}}
+                        <td>{{user.id}}</td>
+                        <td><div ng-show="user.team"><i class="users large orange icon"></i>
+                            {{user.team}}
                           </div>
                         </td>
-                        <td><div ng-show="{{user.is_team}}">
-                            <div ng-show="user.leader_name!=0">
-                              隊長:{{user.leader_name}},
+                        <td><div ng-show="user.team">
+                            <div ng-show="user.leader_name">
+                              隊長: {{user.leader_name}},
                             </div>
-                            <div ng-show="user.member1_name!=0">
-                              成員1:{{user.member1_name}},
+                            <div ng-show="user.member1_name">
+                              成員1: {{user.member1_name}},
                             </div>
-                            <div ng-show="user.member2_name!=0">
-                              成員2:{{user.member2_name}}
+                            <div ng-show="user.member2_name">
+                              成員2: {{user.member2_name}}
+                            </div>
+                            <div ng-show="user.member3_name">
+                              成員3: {{user.member3_name}}
+                            </div>
+                            <div ng-show="user.member4_name">
+                              成員4: {{user.member4_name}}
                             </div>
                           </div>
                         </td>
