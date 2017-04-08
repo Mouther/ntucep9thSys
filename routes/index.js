@@ -7,23 +7,7 @@ var sheetFunc = require('../config/sheet');
 var loadSheet = sheetFunc.load;
 var findOne = sheetFunc.findOne;
 
-var users = [
-  {
-    id: 1, username: 'jrlee', password: 'jrleecep', email: 'jiren@ntu.edu.tw', name: '李吉仁 老師'
-  },
-  {
-    id: 2, username: 'cslin', password: 'cslincep', email: 'chinghsuanlin@ntu.edu.tw', name: '林晉玄 老師'
-  },
-  {
-    id: 3, username: 'jackwang', password: 'jackwangcep', email: 'jack-03703@email.esunbank.com.tw', name: '王振吉 老師'
-  },
-  {
-    id: 4, username: 'lfhsu', password: 'lfhsucep', email: 'sophialifanghsu@gmail.com', name: '徐黎芳 老師'
-  },
-  {
-    id: 5, username: 'ntucep', password: 'ntucepcep', email: 'ntucep@ntu.edu.tw', name: '創創'
-  }
-];
+var users = require('../config/users');
 
 function import$(obj, src){
   var own = {}.hasOwnProperty;
@@ -67,7 +51,7 @@ passport.deserializeUser(function(id, done) {
   if (users[index]) {
     done(null, users[index]);
   } else {
-    done(new Error('User ' + id + 'does not exist'));
+    done(new Error('User ' + id + ' does not exist'));
   }
 });
 
@@ -78,7 +62,7 @@ router.get('/test', function(req, res) {
 
 /* GET home page. */
 router.get('/', ensureAuthenticated, function(req, res) {
-  if (req.user.id == '5') {
+  if (req.user.id == '1') {
     return res.redirect('/dashboard');
   };
   return res.render('index', { title: '創十報名 批改系統' , user: req.user});
@@ -174,6 +158,28 @@ router.get('/api/alldata', function(req, res) {
   // });
 });
 
+// router.get('/api/score/:u/:id/:all_score', apiEnsureAuthenticated, function(req, res) {
+//   var id = req.params.id;
+//   var all_score = req.params.all_score;
+//   var teacher_id = users.find(function(u) {return u.username == 
+//   var set = {};
+//   var tmp = 'score.mentor' +  + '_score';
+//   // var skill_score = req.params.skill_score;
+//   // console.log('all_score: ', all_score);
+//   // console.log('skill_score: ', skill_score);
+//   User.findOneAndUpdate({id: id}, {
+//     $set: {
+//       'score.mentor1_score': all_score,
+//       // 'score.skill_score': skill_score
+//     }}, {upsert: true}, function(err) {
+//       if (err) {
+//         res.json({message:'error'});
+//       } else {
+//         res.json({message:'success'});
+//       }
+//     })
+// });
+
 router.get('/api/score/jr/:id/:all_score', apiEnsureAuthenticated, function(req, res) {
   var id = req.params.id;
   var all_score = req.params.all_score;
@@ -182,26 +188,7 @@ router.get('/api/score/jr/:id/:all_score', apiEnsureAuthenticated, function(req,
   // console.log('skill_score: ', skill_score);
   User.findOneAndUpdate({id: id}, {
     $set: {
-      'score.mentor1_score': all_score,
-      // 'score.skill_score': skill_score
-    }}, {upsert: true}, function(err) {
-      if (err) {
-        res.json({message:'error'});
-      } else {
-        res.json({message:'success'});
-      }
-    })
-});
-
-router.get('/api/score/cs/:id/:all_score', apiEnsureAuthenticated, function(req, res) {
-  var id = req.params.id;
-  var all_score = req.params.all_score;
-  // var skill_score = req.params.skill_score;
-  // console.log('all_score: ', all_score);
-  // console.log('skill_score: ', skill_score);
-  User.findOneAndUpdate({id: id}, {
-    $set: {
-      'score.mentor2_score': all_score,
+      'score.mentor5_score': all_score,
       // 'score.skill_score': skill_score
     }}, {upsert: true}, function(err) {
       if (err) {
@@ -310,26 +297,35 @@ router.get('/note/:id/:mynote', function(req, res) {
       }
     })
 });
+
 router.get('/applicants/:id', function(req, res) {
-
-  if (req.user.id == '1') {
-    // jrlee
-    res.render('jrlee', {user: req.user});
-
-  } else if (req.user.id == '2') {
-    // chung
-    res.render('cslin', {user: req.user});
-
-  } else if (req.user.id == '3') {
-    // tmliu
-    res.render('jackwang', {user: req.user});
-
-  } else if (req.user.id == '4') {
-    // tmliu
-    res.render('lfhsu', {user: req.user});
-  } else {
-    res.redirect('/');
+  if (u = users.find(function(obj) {return obj.id == req.user.id})) {
+    if (u.id == 1)
+      return res.redirect('/');
+    else
+      return res.render(u.username, {user: req.user});
   }
+  else
+    return res.redirect('/');
+
+  // if (req.user.id == '1') {
+  //   // jrlee
+  //   res.render('jrlee', {user: req.user});
+
+  // } else if (req.user.id == '2') {
+  //   // chung
+  //   res.render('cslin', {user: req.user});
+
+  // } else if (req.user.id == '3') {
+  //   // tmliu
+  //   res.render('jackwang', {user: req.user});
+
+  // } else if (req.user.id == '4') {
+  //   // tmliu
+  //   res.render('lfhsu', {user: req.user});
+  // } else {
+  //   res.redirect('/');
+  // }
 });
 
 function ensureAuthenticated(req, res, next) {
