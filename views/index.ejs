@@ -321,20 +321,14 @@
                         <th style="width:10%;">學院別</th>
                         <th style="width:10%;">科系</th>
                         <th style="width:10%;">年級</th>
-                        <th style="width:6%;" ng-click="predicate = '+score.mentor1_score'; reverse = !reverse" ng-show="user_id == '1'">評分<i class='sort icon'></i></th>
-                        
-                        <th style="width:6%;" ng-click="predicate = '+score.mentor2_score'; reverse = !reverse" ng-show="user_id == '2'">評分<i class='sort icon'></i></th>
-                        
-                        <th style="width:6%;" ng-click="predicate = '+score.mentor3_score'; reverse = !reverse" ng-show="user_id == '3'">評分<i class='sort icon'></i></th>
-   
-                        <th style="width:6%;" ng-click="predicate = '+score.mentor4_score'; reverse = !reverse" ng-show="user_id == '4'">評分<i class='sort icon'></i></th>
+                        <th style="width:6%;" ng-click="predicate = '+score.mentor' + user_id + '_score'; reverse = !reverse">評分<i class='sort icon'></i></th>
                         <th style="width:10%;">查看</th>
                         <th style="width:15%;" ng-show="user_id == '1'">狀態</th>
                         <th style="width:20%;" ng-show="user_id == '1'">備註</th>
                       </tr>
                     </thead>
                     <tbody>
-                      <tr ng-repeat="user in filteredUsers = (users | filter: {'student_id': id_filter, 'name': name_filter, 'school': school_filter, 'grade': grade_filter, 'is_team': team_filter})| orderBy:my_self ">
+                      <tr ng-repeat="user in filteredUsers = (users | filter: {'student_id': id_filter, 'name': name_filter, 'school': school_filter, 'grade': grade_filter, 'is_team': team_filter})| orderBy:(user_id == 1 ? predicate : my_self):(user_id == 1 ? reverse : false)">
                         
                         <td>{{user.id}}</td>
                         <td><div ng-show="user.team"><i class="users large orange icon"></i>
