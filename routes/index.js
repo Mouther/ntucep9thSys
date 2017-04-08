@@ -62,7 +62,7 @@ router.get('/test', function(req, res) {
 
 /* GET home page. */
 router.get('/', ensureAuthenticated, function(req, res) {
-  if (req.user.id == '1') {
+  if (req.user.id == '-1') {
     return res.redirect('/dashboard');
   };
   return res.render('index', { title: '創十報名 批改系統' , user: req.user});
@@ -139,7 +139,8 @@ router.get('/api/alldata', function(req, res) {
       }
       var returnObj = {
         users: users,
-        id: req.user?req.user.id:'quest'
+        id: req.user ? req.user.id : 'quest',
+        name: req.user ? req.user.username : 'quest',
       };
       return res.json(returnObj);
     });

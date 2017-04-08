@@ -334,7 +334,7 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <tr ng-repeat="user in filteredUsers = (users | filter: {'student_id': id_filter, 'name': name_filter, 'school': school_filter, 'grade': grade_filter, 'is_team': team_filter})| orderBy:'id' " ng-show="user_id == '1'">
+                      <tr ng-repeat="user in filteredUsers = (users | filter: {'student_id': id_filter, 'name': name_filter, 'school': school_filter, 'grade': grade_filter, 'is_team': team_filter})| orderBy:my_self ">
                         
                         <td>{{user.id}}</td>
                         <td><div ng-show="user.team"><i class="users large orange icon"></i>
@@ -365,8 +365,8 @@
                         <td>{{user.college}}</td>
                         <td>{{user.department}}</td>
                         <td>{{user.grade}}</td>
-                        <td>{{user.score.mentor1_score}}</td>
-                        <td ng-show="user.score.mentor1_score" class="text-success">
+                        <td>{{user.score['mentor' + user_id + '_score']}}</td>
+                        <td ng-show="{{user.score['mentor' + user_id + '_score']}}" class="text-success">
                           <a href="/applicants/{{user.id}}" class="ui small animated inverted green button">
                             <div class="visible content">已批改</div>
                             <div class="hidden content">
@@ -374,7 +374,7 @@
                             </div>
                           </a>
                         </td>
-                        <td ng-hide="user.score.mentor1_score">
+                        <td ng-hide="{{user.score['mentor' + user_id + '_score']}}">
                           <a href="/applicants/{{user.id}}" class="ui small animated inverted red button" tabindex="0">
                             <div class="visible content">批改</div>
                             <div class="hidden content">
@@ -400,6 +400,7 @@
                           </div>
                         </td>
                       </tr>
+
                       <tr ng-repeat="user in filteredUsers = (users | filter: {'student_id': id_filter, 'name': name_filter, 'school': school_filter, 'grade': grade_filter, 'is_team':team_filter})| orderBy:'id' " ng-show="user_id == '2'">
                       
                         <td>{{$index+1}}</td>

@@ -5,11 +5,15 @@ angular.module('app', ['ngSanitize', 'chart.js'])
   .success(function(data, status, headers, config) {
     $scope.users = data.users;
     $scope.user_id = data.id;
-
+    $scope.user_name = data.name;
   })
   .error(function(data, status, headers, config) {
     console.log(data);
   });
+  $scope.my_self = function(obj) {
+    if (obj.score['mentor' + $scope.user_id + '_score'] == 0) return -1
+    else return parseInt(obj.id)
+  };
   $scope.submitNote = function(uid) {
       var myNote = $('.note_input#'+uid).val();
       console.log(myNote);
