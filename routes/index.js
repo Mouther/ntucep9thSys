@@ -180,65 +180,6 @@ router.get('/api/score/:uid/:id/:all_score', apiEnsureAuthenticated, function(re
   })
 });
 
-// router.get('/api/score/jr/:id/:all_score', apiEnsureAuthenticated, function(req, res) {
-//   console.log('yes');
-//   var id = req.params.id;
-//   var all_score = req.params.all_score;
-//   console.log(id, all_score);
-//   // var skill_score = req.params.skill_score;
-//   // console.log('all_score: ', all_score);
-//   // console.log('skill_score: ', skill_score);
-//   User.findOneAndUpdate({id: id}, {
-//     $set: {
-//       'score.mentor5_score': all_score,
-//       // 'score.skill_score': skill_score
-//     }}, {upsert: true}, function(err, doc) {
-//       console.log(doc)
-//       if (err) {
-//         res.json({message:'error'});
-//       } else {
-//         res.json({message:'success'});
-//       }
-//     })
-// });
-
-router.get('/api/score/jack/:id/:all_score', apiEnsureAuthenticated, function(req, res) {
-  var id = req.params.id;
-  var all_score = req.params.all_score;
-  // var skill_score = req.params.skill_score;
-  // console.log('all_score: ', all_score);
-  // console.log('skill_score: ', skill_score);
-  User.findOneAndUpdate({id: id}, {
-    $set: {
-      'score.mentor3_score': all_score,
-      // 'score.skill_score': skill_score
-    }}, {upsert: true}, function(err) {
-      if (err) {
-        res.json({message:'error'});
-      } else {
-        res.json({message:'success'});
-      }
-    })
-});
-router.get('/api/score/lf/:id/:all_score', apiEnsureAuthenticated, function(req, res) {
-  var id = req.params.id;
-  var all_score = req.params.all_score;
-  // var skill_score = req.params.skill_score;
-  // console.log('all_score: ', all_score);
-  // console.log('skill_score: ', skill_score);
-  User.findOneAndUpdate({id: id}, {
-    $set: {
-      'score.mentor4_score': all_score,
-      // 'score.skill_score': skill_score
-    }}, {upsert: true}, function(err) {
-      if (err) {
-        res.json({message:'error'});
-      } else {
-        res.json({message:'success'});
-      }
-    })
-});
-
 router.get('/api/applicants/:id', function(req, res) {
   findOne(router.sheet, parseInt(req.params.id), function(user) {
     User.findOne({id: req.params.id}).exec(function(err, user_) {
