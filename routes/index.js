@@ -159,20 +159,41 @@ router.get('/api/alldata', function(req, res) {
   // });
 });
 
-// router.get('/api/score/:u/:id/:all_score', apiEnsureAuthenticated, function(req, res) {
+router.get('/api/score/:uid/:id/:all_score', apiEnsureAuthenticated, function(req, res) {
+  var id = req.params.id;
+  var all_score = req.params.all_score;
+  var uid = req.params.uid;
+  var set = {};
+  var tmp = 'score.mentor' + uid + '_score';
+  set[tmp] = all_score;
+  // var skill_score = req.params.skill_score;
+  // console.log('all_score: ', all_score);
+  // console.log('skill_score: ', skill_score);
+  User.findOneAndUpdate({id: id}, {
+    $set: set
+  }, {upsert: true}, function(err) {
+    if (err) {
+      res.json({message:'error'});
+    } else {
+      res.json({message:'success'});
+    }
+  })
+});
+
+// router.get('/api/score/jr/:id/:all_score', apiEnsureAuthenticated, function(req, res) {
+//   console.log('yes');
 //   var id = req.params.id;
 //   var all_score = req.params.all_score;
-//   var teacher_id = users.find(function(u) {return u.username == 
-//   var set = {};
-//   var tmp = 'score.mentor' +  + '_score';
+//   console.log(id, all_score);
 //   // var skill_score = req.params.skill_score;
 //   // console.log('all_score: ', all_score);
 //   // console.log('skill_score: ', skill_score);
 //   User.findOneAndUpdate({id: id}, {
 //     $set: {
-//       'score.mentor1_score': all_score,
+//       'score.mentor5_score': all_score,
 //       // 'score.skill_score': skill_score
-//     }}, {upsert: true}, function(err) {
+//     }}, {upsert: true}, function(err, doc) {
+//       console.log(doc)
 //       if (err) {
 //         res.json({message:'error'});
 //       } else {
@@ -180,25 +201,6 @@ router.get('/api/alldata', function(req, res) {
 //       }
 //     })
 // });
-
-router.get('/api/score/jr/:id/:all_score', apiEnsureAuthenticated, function(req, res) {
-  var id = req.params.id;
-  var all_score = req.params.all_score;
-  // var skill_score = req.params.skill_score;
-  // console.log('all_score: ', all_score);
-  // console.log('skill_score: ', skill_score);
-  User.findOneAndUpdate({id: id}, {
-    $set: {
-      'score.mentor5_score': all_score,
-      // 'score.skill_score': skill_score
-    }}, {upsert: true}, function(err) {
-      if (err) {
-        res.json({message:'error'});
-      } else {
-        res.json({message:'success'});
-      }
-    })
-});
 
 router.get('/api/score/jack/:id/:all_score', apiEnsureAuthenticated, function(req, res) {
   var id = req.params.id;
@@ -239,7 +241,11 @@ router.get('/api/score/lf/:id/:all_score', apiEnsureAuthenticated, function(req,
 
 router.get('/api/applicants/:id', function(req, res) {
   findOne(router.sheet, parseInt(req.params.id), function(user) {
-    return res.json(user);
+    User.findOne({id: req.params.id}).exec(function(err, user_) {
+      if (err) console.error(err);
+      user = import$(user, user_._doc);
+      return res.json(user);
+    });
   });
 
   // User.findOne({id: req.params.id}).exec(function(err, user) {
@@ -301,10 +307,10 @@ router.get('/note/:id/:mynote', function(req, res) {
 
 router.get('/applicants/:id', function(req, res) {
   if (u = users.find(function(obj) {return obj.id == req.user.id})) {
-    if (u.id == 1)
+    if (u.id == -1)
       return res.redirect('/');
     else
-      return res.render(u.username, {user: req.user});
+      return res.render('applicant', {user: req.user});
   }
   else
     return res.redirect('/');

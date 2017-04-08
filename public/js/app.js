@@ -41,67 +41,82 @@ angular.module('app', ['ngSanitize', 'chart.js'])
   });
 
   $scope.isURL = isURL;
+  $scope.submitScore = function(uid) {
+    var id = $scope.user.id;
+    var all_score = $('.ui.rating#thisStudent i.active').length;
+    // var skill_score = $scope.user.score.skill_score;
+    // console.log(id);
+    // console.log(all_score);
+    $http.get('/api/score/'+uid+'/'+id+'/'+all_score)
+    .success(function(data, status, header, config) {
+      alert('系統已記錄成績');
+      window.location.href = '/'
+    })
+    .error(function(data, status, header, config){
+      alert('有錯誤');
+    });
+  };
 
-  $scope.JRsubmitScore = function() {
-    var id = $scope.user.id;
-    var all_score = $('.ui.rating#thisStudent i.active').length;
-    // var skill_score = $scope.user.score.skill_score;
-    console.log(id);
-    console.log(all_score);
-    $http.get('/api/score/jr/'+id+'/'+all_score)
-    .success(function(data, status, header, config) {
-      alert('系統已記錄成績');
-      window.location.href = '/'
-    })
-    .error(function(data, status, header, config){
-      alert('有錯誤');
-    });
-  };
-  $scope.CSsubmitScore = function() {
-    var id = $scope.user.id;
-    var all_score = $('.ui.rating#thisStudent i.active').length;
-    // var skill_score = $scope.user.score.skill_score;
-    console.log(id);
-    console.log(all_score);
-    $http.get('/api/score/cs/'+id+'/'+all_score)
-    .success(function(data, status, header, config) {
-      alert('系統已記錄成績');
-      window.location.href = '/'
-    })
-    .error(function(data, status, header, config){
-      alert('有錯誤');
-    });
-  };
-  $scope.WANGsubmitScore = function() {
-    var id = $scope.user.id;
-    var all_score = $('.ui.rating#thisStudent i.active').length;
-    // var skill_score = $scope.user.score.skill_score;
-    console.log(id);
-    console.log(all_score);
-    $http.get('/api/score/jack/'+id+'/'+all_score)
-    .success(function(data, status, header, config) {
-      alert('系統已記錄成績');
-      window.location.href = '/'
-    })
-    .error(function(data, status, header, config){
-      alert('有錯誤');
-    });
-  };
-  $scope.LFsubmitScore = function() {
-    var id = $scope.user.id;
-    var all_score = $('.ui.rating#thisStudent i.active').length;
-    // var skill_score = $scope.user.score.skill_score;
-    console.log(id);
-    console.log(all_score);
-    $http.get('/api/score/lf/'+id+'/'+all_score)
-    .success(function(data, status, header, config) {
-      alert('系統已記錄成績');
-      window.location.href = '/'
-    })
-    .error(function(data, status, header, config){
-      alert('有錯誤');
-    });
-  };
+  // $scope.JRsubmitScore = function() {
+  //   var id = $scope.user.id;
+  //   var all_score = $('.ui.rating#thisStudent i.active').length;
+  //   // var skill_score = $scope.user.score.skill_score;
+  //   console.log(id);
+  //   console.log(all_score);
+  //   $http.get('/api/score/jr/'+id+'/'+all_score)
+  //   .success(function(data, status, header, config) {
+  //     alert('系統已記錄成績');
+  //     window.location.href = '/'
+  //   })
+  //   .error(function(data, status, header, config){
+  //     alert('有錯誤');
+  //   });
+  // };
+  // $scope.CSsubmitScore = function() {
+  //   var id = $scope.user.id;
+  //   var all_score = $('.ui.rating#thisStudent i.active').length;
+  //   // var skill_score = $scope.user.score.skill_score;
+  //   console.log(id);
+  //   console.log(all_score);
+  //   $http.get('/api/score/cs/'+id+'/'+all_score)
+  //   .success(function(data, status, header, config) {
+  //     alert('系統已記錄成績');
+  //     window.location.href = '/'
+  //   })
+  //   .error(function(data, status, header, config){
+  //     alert('有錯誤');
+  //   });
+  // };
+  // $scope.WANGsubmitScore = function() {
+  //   var id = $scope.user.id;
+  //   var all_score = $('.ui.rating#thisStudent i.active').length;
+  //   // var skill_score = $scope.user.score.skill_score;
+  //   console.log(id);
+  //   console.log(all_score);
+  //   $http.get('/api/score/jack/'+id+'/'+all_score)
+  //   .success(function(data, status, header, config) {
+  //     alert('系統已記錄成績');
+  //     window.location.href = '/'
+  //   })
+  //   .error(function(data, status, header, config){
+  //     alert('有錯誤');
+  //   });
+  // };
+  // $scope.LFsubmitScore = function() {
+  //   var id = $scope.user.id;
+  //   var all_score = $('.ui.rating#thisStudent i.active').length;
+  //   // var skill_score = $scope.user.score.skill_score;
+  //   console.log(id);
+  //   console.log(all_score);
+  //   $http.get('/api/score/lf/'+id+'/'+all_score)
+  //   .success(function(data, status, header, config) {
+  //     alert('系統已記錄成績');
+  //     window.location.href = '/'
+  //   })
+  //   .error(function(data, status, header, config){
+  //     alert('有錯誤');
+  //   });
+  // };
   // $scope.SCsubmitScore = function() {
   //   var id = $scope.user.id;
   //   var youtube_link_score = $scope.user.score.youtube_link_score;

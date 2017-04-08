@@ -177,7 +177,7 @@
               <div class="extra content">
               <!-- <input type="number" class="form-control" ng-model="user.score.all_score" placeholder="請輸入數字"> -->
               整體評分:<div id="thisStudent" class="ui massive star rating" data-rating="{{user.score['mentor' + <%= user.id %> + '_score']}}" data-max-rating="3"></div>
-                <button class="ui right floated inverted green button" ng-click="JRsubmitScore()">送出</button>
+                <button class="ui right floated inverted green button" ng-click="submitScore(<%= user.id %>)">送出</button>
               </div>
             </div>
           </div>
