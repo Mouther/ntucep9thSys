@@ -94,7 +94,7 @@ router.post('/login', function(req, res) {
     }
 
     if (!user) {
-      return res.send('Respond with a info.');
+      return res.send('帳號或密碼錯誤！');
     }
 
     req.logIn(user, function(err) {
