@@ -105,8 +105,8 @@
   <body ng-controller="DashBoardCtrl">
         <!-- Sidebar Menu -->
     <div class="ui vertical inverted sidebar menu">
-      <div class="item">台大創創第九屆招生</div>
-      <a class="active item" href="/billboard">創九錄取名單</a>
+      <div class="item">台大創創第十屆招生</div>
+      <a class="active item" href="/billboard">創十錄取名單</a>
       
         <div class="item">
           <a class="ui button">登入</a>
@@ -119,7 +119,7 @@
         <div class="item">
           <img class="ui logo" src="/image/cep_logo_web-01.png" height="40">
         </div>
-        <a class="active item" href="/billboard">創九錄取名單</a>
+        <a class="active item" href="/billboard">創十錄取名單</a>
         <div class="right menu">    
             <div class="item">
               <a class="ui button" href="login">登入</a>
@@ -142,7 +142,7 @@
               說明:
             </h4>
             <p>
-              本屆報名人數共計148人，其中60位正取，9位備取
+            本屆報名人數共計{{users.length || 0}}人，其中{{filteredUsers.length || 0}}位正取，{{filteredUsers2.length || 0}}位備取
             </p>
             <p>
               詳細評分狀況敬請參考如下
@@ -287,15 +287,16 @@
                     <label>學校別:
                       <select class="ui search dropdown" ng-model="school_filter">
                         <option value="">無分類:</option>
-                        <option value="國立臺灣大學">台大</option>
-                        <option value="國立台灣師範大學">師大</option>
-                        <option value="國立臺灣科技大學">台科大</option>
+                        <option value="臺灣大學">台大</option>
+                        <option value="臺灣師範大學">師大</option>
+                        <option value="臺灣科技大學">台科大</option>
                       </select>
                     </label>
 
                     <!-- <input type="text" ng-model="school_filter" class="form-control" placeholder="學校分類..."> -->
                     <!-- <i class="browser icon"></i> -->
                   </div>
+                  <!--
                   <div class="ui icon input item">
                     <label>年級別:
                       <select class="ui search dropdown" ng-model="grade_filter">
@@ -310,6 +311,7 @@
                       </select>
                     </label>
                   </div>
+                  -->
                   <!-- <div class="ui icon input item">
                     <label>評分別:
 
@@ -352,14 +354,20 @@
               </td>
               <td><div ng-show="{{user.is_team}}"><i class="users large orange icon"></i>{{user.team_name}}<div ng-show="user.team_name!='高年級實習生'">
                     <p>
-                        <div ng-show="user.leader_name!=0">
+                        <div ng-show="user.leader_name">
                           隊長:{{user.leader_name}},
                         </div>
-                        <div ng-show="user.member1_name!=0">
+                        <div ng-show="user.member1_name">
                           成員1:{{user.member1_name}},
                         </div>
-                        <div ng-show="user.member2_name!=0">
+                        <div ng-show="user.member2_name">
                           成員2:{{user.member2_name}}
+                        </div>
+                        <div ng-show="user.member3_name">
+                          成員3: {{user.member3_name}}
+                        </div>
+                        <div ng-show="user.member4_name">
+                          成員4: {{user.member4_name}}
                         </div>
                     </p>
                   </div>
@@ -406,15 +414,16 @@
                     <label>學校別:
                       <select class="ui search dropdown" ng-model="school_filter2">
                         <option value="">無分類:</option>
-                        <option value="國立臺灣大學">台大</option>
-                        <option value="國立台灣師範大學">師大</option>
-                        <option value="國立臺灣科技大學">台科大</option>
+                        <option value="臺灣大學">台大</option>
+                        <option value="臺灣師範大學">師大</option>
+                        <option value="臺灣科技大學">台科大</option>
                       </select>
                     </label>
 
                     <!-- <input type="text" ng-model="school_filter" class="form-control" placeholder="學校分類..."> -->
                     <!-- <i class="browser icon"></i> -->
                   </div>
+                  <!-- 
                   <div class="ui icon input item">
                     <label>年級別:
                       <select class="ui search dropdown" ng-model="grade_filter2">
@@ -429,6 +438,7 @@
                       </select>
                     </label>
                   </div>
+                  -->
                   <!-- <div class="ui icon input item">
                     <label>評分別:
 

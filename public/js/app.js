@@ -164,14 +164,13 @@ angular.module('app', ['ngSanitize', 'chart.js'])
       obj.facebook_link = user.facebook_link;
       obj.grade = user.grade;
       obj.note = user.note;
-      obj.is_team = user.is_team;
-      obj.team_name= user.team_name;
+      obj.team = user.team;
 
       obj.leader_name= user.leader_name;
-      
       obj.member1_name= user.member1_name;
-      
       obj.member2_name= user.member2_name;
+      obj.member3_name= user.member3_name;
+      obj.member4_name= user.member4_name;
   
       if (user.hasOwnProperty('gender')) {
         obj.gender = user.gender
