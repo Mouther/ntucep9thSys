@@ -257,7 +257,7 @@
       <div class="ui container">
         <h1 class="ui header">成績列表</h1>
         <p><i class="icon alarm outline"></i> 點擊「#」或 「總分」 可以排序，再次點擊反向排序</p>
-        <p><i class="icon alarm outline"></i> 成績評分者依序為: 李吉仁 老師(jrlee)、林晉玄 老師(shihchung)、王振吉 老師(jackwang)、徐黎芳 老師(lifanghsu)</p>
+        <p><i class="icon alarm outline"></i> 成績評分者依序為: 陳炳宇 老師、林晉玄 老師、簡韶逸 老師</p>
         <table class="ui striped celled definition table">
           <thead class="full-width">
             <tr>
@@ -275,14 +275,8 @@
             </tr>
           </thead>
           <tbody>
-            <tr ng-repeat="user in users | orderBy:predicate:reverse" ng-init="total = user.score.mentor1_score + user.score.mentor2_score + user.score.mentor3_score + user.score.mentor4_score">
-              <!-- <td>{{user.id}}</th> -->
-              <td>
-                <!-- <div class="ui fitted toggle checkbox">
-                  <input type="checkbox"> <label></label>
-                </div> -->
-                {{$index+1}}
-              </td>
+          <tr ng-repeat="user in users | orderBy:predicate:reverse">
+              <td>{{user.id}}</th>
               <td><div ng-show="{{user.is_team}}"><i class="users large orange icon"></i></div></td>
               <td><a href="{{user.facebook_link}}" target="_blank">{{user.name}}</a></td>
               <td>{{user.gender}}</td>
@@ -291,7 +285,7 @@
               <td>{{user.college}}</td>
               <td>{{user.department}}</td>
               <td>{{user.grade}}</td>
-              <td style="width: 15%">{{user.score.mentor1_score || 'x'}} | {{user.score.mentor2_score || 'x'}} | {{user.score.mentor3_score || 'x'}} | {{user.score.mentor4_score || 'x'}}</td>
+              <td style="width: 15%">{{user.score.mentor2_score || 'x'}} | {{user.score.mentor3_score || 'x'}} | {{user.score.mentor4_score || 'x'}}</td>
               <td>{{user.score.total}}</td>
               
             </tr>
