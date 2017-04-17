@@ -179,10 +179,6 @@ angular.module('app', ['ngSanitize', 'chart.js'])
       obj.score.total = 0;
       obj.result = user.result;
       if (user.hasOwnProperty('score')) {
-        if (user.score.hasOwnProperty('mentor1_score')) {
-          obj.score.mentor1_score = parseInt(user.score.mentor1_score);
-          obj.score.total += parseInt(user.score.mentor1_score);
-        };
         if (user.score.hasOwnProperty('mentor2_score')) {
           obj.score.mentor2_score = parseInt(user.score.mentor2_score);
           obj.score.total += parseInt(user.score.mentor2_score);          
@@ -194,6 +190,18 @@ angular.module('app', ['ngSanitize', 'chart.js'])
         if (user.score.hasOwnProperty('mentor4_score')) {
           obj.score.mentor4_score = parseInt(user.score.mentor4_score);
           obj.score.total += parseInt(user.score.mentor4_score);          
+        };
+        if (user.score.hasOwnProperty('mentor5_score')) {
+          obj.score.mentor5_score = parseInt(user.score.mentor5_score);
+          obj.score.total += parseInt(user.score.mentor5_score);          
+        };
+        if (user.score.hasOwnProperty('mentor6_score')) {
+          obj.score.mentor6_score = parseInt(user.score.mentor6_score);
+          obj.score.total += parseInt(user.score.mentor6_score);          
+        };
+        if (user.score.hasOwnProperty('mentor7_score')) {
+          obj.score.mentor7_score = parseInt(user.score.mentor7_score);
+          obj.score.total += parseInt(user.score.mentor7_score);          
         };
         
       };
