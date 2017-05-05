@@ -134,8 +134,8 @@ router.get('/api/alldata', function(req, res) {
       if (err) console.error(err);
       for (let i = 0; i < users.length; i++) {
         var user_ = users_.find(function(u) { return u.id == users[i].id });
-        if (!user_) continue;
-        else users[i] = import$(users[i], user_._doc);
+        if (!user_) { continue }
+        else { users[i] = import$(users[i], user_._doc) }
       }
       var returnObj = {
         users: users,
@@ -184,7 +184,7 @@ router.get('/api/applicants/:id', function(req, res) {
   findOne(router.sheet, parseInt(req.params.id), function(user) {
     User.findOne({id: req.params.id}).exec(function(err, user_) {
       if (err) console.error(err);
-      user = import$(user, user_._doc);
+      if (user_) user = import$(user, user_._doc);
       return res.json(user);
     });
   });

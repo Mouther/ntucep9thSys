@@ -11,7 +11,7 @@ angular.module('app', ['ngSanitize', 'chart.js'])
     console.log(data);
   });
   $scope.my_self = function(obj) {
-    if (obj.score['mentor' + $scope.user_id + '_score'] == 0) return -1
+    if (!obj.score || obj.score['mentor' + $scope.user_id + '_score'] == 0) return -1
     else return parseInt(obj.id)
   };
   $scope.submitNote = function(uid) {
