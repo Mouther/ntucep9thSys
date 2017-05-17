@@ -11,7 +11,7 @@ angular.module('app', ['ngSanitize', 'chart.js'])
     console.log(data);
   });
   $scope.my_self = function(obj) {
-    if (!obj.score || obj.score['mentor' + $scope.user_id + '_score'] == 0) return -1
+    if (!obj.score || obj.score['mentor' + $scope.user_id + '_score'] == 0) return parseInt(obj.id) - 1000
     else return parseInt(obj.id)
   };
   $scope.submitNote = function(uid) {
@@ -435,7 +435,7 @@ function testLinks(){
 };
 
 function isURL(str) {
-  var expression = /https?:\/\/[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?/gi;
+  var expression = /^(https?:\/\/)[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?/gi;
   var regex = new RegExp(expression);
   return regex.test(str);
 };
