@@ -377,7 +377,10 @@
                             </div>
                           </div>
                         </td>
-                        <td><a href="{{user.facebook_link}}" target="_blank">{{user.name}}</a></td>
+                        <td ng-switch on="isURL(user.facebook_link)">
+                            <p ng-switch-when="true"><a href="{{user.facebook_link}}" target="_blank">{{user.name}}</a></p>
+                            <p ng-switch-default>{{user.name}}</p>
+                        </td>
                         <td>{{user.student_id}}</td>
                         <td>{{user.school}}</td>
                         <td>{{user.college}}</td>

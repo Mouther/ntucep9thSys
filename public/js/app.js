@@ -10,6 +10,7 @@ angular.module('app', ['ngSanitize', 'chart.js'])
   .error(function(data, status, headers, config) {
     console.log(data);
   });
+  $scope.isURL = isURL;
   $scope.my_self = function(obj) {
     if (!obj.score || obj.score['mentor' + $scope.user_id + '_score'] == 0) return parseInt(obj.id) - 1000
     else return parseInt(obj.id)
@@ -215,6 +216,7 @@ angular.module('app', ['ngSanitize', 'chart.js'])
     // $scope.labels = ["Download Sales", "In-Store Sales", "Mail-Order Sales"];
     // $scope.data = [300, 500, 100, 200, 300, 400, 500, 400, 500];
     
+    $scope.isURL = isURL;
     $scope.chart_member = 60;
 
     $scope.updateChart = function() { 
