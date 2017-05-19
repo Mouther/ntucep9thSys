@@ -270,12 +270,35 @@
                         <option value="臺灣大學">台大</option>
                         <option value="臺灣師範大學">師大</option>
                         <option value="臺灣科技大學">台科大</option>
+
                       </select>
                     </label>
-
-                    <!-- <input type="text" ng-model="school_filter" class="form-control" placeholder="學校分類..."> -->
-                    <!-- <i class="browser icon"></i> -->
                   </div>
+
+                  <div class="ui icon input item">
+                    <label>學院別:
+                      <select class="ui search dropdown" ng-model="college_filter">
+                        <option value="">無分類:</option>
+                        <option value="文學院">文學院</option>
+                        <option value="理學院">理學院</option>
+                        <option value="社會科學院">社會科學院</option>
+                        <option value="醫學院">醫學院</option>
+                        <option value="工學院">工學院</option>
+                        <option value="生物資源暨農學 ">生物資源暨農學院</option>
+                        <option value="管理學院">管理學院</option>
+                        <option value="公共衛生學院">公共衛生學院</option>
+                        <option value="電機資訊學院">電機資訊學院</option>
+                        <option value="法律學院">法律學院</option>
+                        <option value="生命科學院">生命科學院</option>
+                        <option value="教育學院">教育學院</option>
+                        <option value="藝術設計學院">藝術設計學院</option>
+                        <option value="運動與休閒學院">運動與休閒學院</option>
+                        <option value="音樂學院">音樂學院</option>
+
+                      </select>
+                    </label>
+                  </div>
+
                   <!--
                   <div class="ui icon input item">
                     <label>年級別:
@@ -329,7 +352,7 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <tr ng-repeat="user in filteredUsers = (users | filter: {'student_id': id_filter, 'name': name_filter, 'school': school_filter, 'grade': grade_filter, 'is_team': team_filter})| orderBy:(user_id == 1 ? predicate : my_self):(user_id == 1 ? reverse : false)">
+                      <tr ng-repeat="user in filteredUsers = (users | filter: {'student_id': id_filter, 'name': name_filter, 'college': college_filter, 'school': school_filter, 'grade': grade_filter, 'is_team': team_filter})| orderBy:(user_id == 1 ? predicate : my_self):(user_id == 1 ? reverse : false)">
                         
                         <td>{{user.id}}</td>
                         <td><div ng-show="user.team"><i class="users large orange icon"></i>
