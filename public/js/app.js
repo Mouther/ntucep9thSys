@@ -152,7 +152,7 @@ angular.module('app', ['ngSanitize', 'chart.js'])
   .success(function(data, status, header, config) {
     $scope.users = data.users.map(function(user) {
       var obj = {};
-      obj.id = user.id;
+      obj.id = parseInt(user.id);
       obj.is_team = user.is_team;
       obj.name = user.name;
       obj.student_id = user.student_id;
